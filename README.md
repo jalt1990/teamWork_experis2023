@@ -12,7 +12,7 @@ RIFERIMENTO DELLE REGOLE DI GRUPPO
 
 2. commit?
   - pull/push 
-  - bozza e commenti dell'analisi (commit
+  - bozza e commenti dell'analisi (commit)
   - ogni volta che ci sono state modifiche importanti
 
 3. commenti
@@ -25,4 +25,4 @@ RIFERIMENTO DELLE REGOLE DI GRUPPO
   - nomi delle Classi e delle funzioni in camelCase.
   - nomi che abbiano un significato inerente.
 
-4. varie ed eventuali in corso d'opera
+5. varie ed eventuali in corso d'opera
