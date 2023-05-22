@@ -54,9 +54,9 @@ class ListaTask:
         task.scadenza = scadenza
         task.priorita = priorita
 
-    def update_singole(self, task, *args):
-        for arg in args:
-            task.arg = arg
+    #def update_singole(self, task, *args):
+        #for arg in args:
+            #task.arg = arg
 
     def delete(self, indice):
         self.lista_task.remove(self.lista_task[indice - 1])
@@ -78,7 +78,7 @@ def switch():
         print("2. Visualizza tutte le task")
         print("3. Elimina Task")
         print("4. Modifica la Task")
-        print("5. Modifica singoli attributi Task --test") # test
+        #print("5. Modifica singoli attributi Task --test") # test
         print("0. Esci")
         scelta = input("Inserisci la tua scelta: ")
         print()
@@ -114,17 +114,6 @@ def switch():
         
         elif scelta == '4':
             # Aggiornare la task
-            print('Ti faccio visualizzare le task nella To do List: ')
-            to_do_list.read()
-            scelta = input('Indica il numero della task da aggiornare: ')
-            contenuto = input('Inserisci il nuovo contenuto: ')
-            scadenza = input('Inserisci la nuova scadenza: ')
-            priorita = input('Inserisci la nuova  priorita: ')
-            to_do_list.update(to_do_list.lista_task[int(scelta)], contenuto, scadenza, priorita)
-            print('Hai aggiornato la task con successo.')
-
-        elif scelta == '5':
-            # Aggiornare la task per singoli attributi --test
             print('Ti faccio visualizzare le task nella To do List: ')
             to_do_list.read()
             scelta = input('Indica il numero della task da aggiornare: ')
