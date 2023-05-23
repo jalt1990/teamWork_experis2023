@@ -25,4 +25,22 @@ RIFERIMENTO DELLE REGOLE DI GRUPPO
   - nomi delle Classi e delle funzioni in camelCase.
   - nomi che abbiano un significato inerente.
 
-5. varie ed eventuali in corso d'opera
+5. DA FARE URGENTE:
+  - Modificare i menu a blocchi di più funzioni
+  - Ottimizzare le classi oggetti liste
+  - Ottimizzare le classi oggetti task
+  - imparare a usare il date-time
+  - previsione degli errori (try - catch)
+  - migliorare i metodi di Crud
+  
+7. FEATURE DA IMPLEMENTARE:
+  - scelta di cosa modificare nei task
+  - singole task con scadenza
+  - scadenza sulle liste
+  - allert della scadenza (usando la date-time)
+  - salvataggio su file di testo di backup
+  - Aggiungere un calendario
+  - Ordinamento delle liste per priorità, scadenza, o da fare
+  - Progressivo dell'esecuzione delle liste (in percentuale)
+  - Controllo delle task attive usando la date-time
+  - Aggiungere un nome utente + password
