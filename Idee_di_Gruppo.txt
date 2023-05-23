@@ -8,3 +8,4 @@ Miglioramenti da implementare:
 Cosa potremmo fare:
 1)  Un altro menù con solo entra esci
 2)  Liste nominative modificabili solo dall'utente corrente con magari un processo di log-in
+3)  Allert scadenza con una mail 
