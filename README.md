@@ -1,5 +1,5 @@
 # teamWork_experis2023
-Esercizi di lavoro in gruppo fatto tra Franco, Carlo e Monica
+Esercizi di lavoro in gruppo fatto tra Franco, Carlo, Monica e Giorgio
 
 RIFERIMENTO DELLE REGOLE DI GRUPPO
 
@@ -26,14 +26,14 @@ RIFERIMENTO DELLE REGOLE DI GRUPPO
   - nomi che abbiano un significato inerente.
 
 5. DA FARE URGENTE:
-  - Modificare i menu a blocchi di più funzioni
+  - Modificare i menu a blocchi di più funzioni --Fatto
   - Ottimizzare le classi oggetti liste
   - Ottimizzare le classi oggetti task
   - imparare a usare il date-time
-  - previsione degli errori (try - catch)
+  - previsione degli errori (try - catch) --Fatto parzialmente
   - migliorare i metodi di Crud
   
-7. FEATURE DA IMPLEMENTARE:
+6. FEATURE DA IMPLEMENTARE:
   - scelta di cosa modificare nei task
   - singole task con scadenza
   - scadenza sulle liste
