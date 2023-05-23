@@ -3,7 +3,7 @@ RELEASE 1.00
 Fare una ToDoList che abbia un sistema CRUD (Create, Read, Update, Delete) --FATTO
 
 RELEASE 2.00
-Aggiungere alle Task la priorità, data di scadenza, stato di attività --DA COMPLETARE 
+Aggiungere alle Task la priorità, data di scadenza, stato di attività 
 """
 
 # funzione switch che avvia app
@@ -22,7 +22,7 @@ Aggiungere alle Task la priorità, data di scadenza, stato di attività --DA COM
 
 # Classe Task
 class Task:
-    stato_attivita = 0 # un numero intero da 0 a 100 concatenato al carattere %
+    stato_attivita = False # un numero intero da 0 a 100 concatenato al carattere %
 
     def __init__(self, contenuto, scadenza, priorita):
         self.contenuto = contenuto #string
@@ -61,10 +61,6 @@ class ListaTask:
         task.contenuto = contenuto
         task.scadenza = scadenza
         task.priorita = priorita
-
-    #def update_singole(self, task, *args):
-        #for arg in args:
-            #task.arg = arg
 
     def delete(self, indice):
         self.lista_task.remove(self.lista_task[indice - 1])
@@ -145,12 +141,13 @@ def switch_modifica_parziale():
 def modifica_completa():
     while True:
         scelta = input('Indica il numero della task da aggiornare: ')
-        contenuto = input('Inserisci il nuovo contenuto: ')
-        scadenza = input('Inserisci la nuova scadenza: ')
-        priorita = input('Inserisci la nuova  priorita: ')
         # Costrutto per gestire gli errori di input di 'scelta'
         try:
-            to_do_list.update(to_do_list.lista_task[int(scelta) - 1], contenuto, scadenza, priorita)
+            x = int(scelta) - 1
+            contenuto = input('Inserisci il nuovo contenuto: ')
+            scadenza = input('Inserisci la nuova scadenza: ')
+            priorita = input('Inserisci la nuova  priorita: ')
+            to_do_list.update(to_do_list.lista_task[x], contenuto, scadenza, priorita)
             print('Hai aggiornato la task con successo.')
             break
         except:
