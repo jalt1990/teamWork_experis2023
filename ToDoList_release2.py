@@ -11,19 +11,14 @@ Aggiungere alle Task la priorità, data di scadenza, stato di attività
 
 # CLASSE OGGETTI TASK:
 # ogni task deve avere il contenuto,
-#                      la scadenza (entro quando va fatto? un allarm?),
+#                      la scadenza (entro quando va fatto?),
 #                      stato di attività (concluso, non concluso),
-#                      priorita (da 1 a 5)(Non delegabile, Delegabile, Da pianificare, Superflua) quadrato di eisenhower
+#                      priorita (Alta, Media, Bassa)
 
-
-# CLASSE OGGETTI TASK-list
-# Liste di task!
-# conviene creare una classe con metodi che vadano a fare lavoro di CRUD
 
 # Classe Task
 class Task:
-    stato_attivita = False # un numero intero da 0 a 100 concatenato al carattere %
-
+    stato_attivita = False # booleano
     def __init__(self, contenuto, scadenza, priorita):
         self.contenuto = contenuto #string
         self.scadenza = scadenza #string -- mettere una data e ora / e segnalare i giorni mancanti
