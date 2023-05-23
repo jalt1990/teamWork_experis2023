@@ -8,10 +8,7 @@ Fare una ToDoList che abbia un sistema CRUD (Create, Read, Update, Delete)
 # menu: C - R - U - D
 
 # CLASSE OGGETTI TASK:
-# ogni task deve avere il contenuto,
-#                      la scadenza (entro quando va fatto? un allarm?),
-#                      stato di attività (concluso, non concluso),
-#                      priorita (da 1 a 5)(Non delegabile, Delegabile, Da pianificare, Superflua) quadrato di eisenhower
+# ogni task deve avere il contenuto                    
 
 
 # CLASSE OGGETTI TASK-list
@@ -87,10 +84,11 @@ def modifica_completa():
     to_do_list.read()
     while True:
         scelta = input('Indica il numero della task da aggiornare: ')
-        contenuto = input('Inserisci il nuovo contenuto: ')
         # Costrutto per gestire gli errori di input di 'scelta'
         try:
-            to_do_list.update(to_do_list.lista_task[int(scelta) - 1], contenuto)
+            x = int(scelta) - 1
+            contenuto = input('Inserisci il nuovo contenuto: ')
+            to_do_list.update(to_do_list.lista_task[x], contenuto)
             print('Hai aggiornato la task con successo.')
             break
         except:
