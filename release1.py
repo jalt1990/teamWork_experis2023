@@ -1,9 +1,7 @@
 """
 RELEASE 1.00
-Fare una ToDoList che abbia un sistema CRUD (Create, Read, Update, Delete) --FATTO
+Fare una ToDoList che abbia un sistema CRUD (Create, Read, Update, Delete) 
 
-RELEASE 2.00
-Aggiungere alle Task la priorità, data di scadenza, stato di attività --DA COMPLETARE 
 """
 
 # funzione switch che avvia app
@@ -22,24 +20,15 @@ Aggiungere alle Task la priorità, data di scadenza, stato di attività --DA COM
 
 # Classe Task
 class Task:
-    stato_attivita = 0 # un numero intero da 0 a 100 concatenato al carattere %
 
-    def __init__(self, contenuto, scadenza, priorita):
+    def __init__(self, contenuto):
         self.contenuto = contenuto #string
-        self.scadenza = scadenza #string -- mettere una data e ora / e segnalare i giorni mancanti
-        self.priorita = priorita #string
 
     def to_string(self):
-        return f'Contenuto: {self.contenuto} \n  Scadenza: {self.scadenza}\n  stato di attivita: {self.stato_attivita}\n  Priorita: {self.priorita}\n' 
+        return f'Contenuto: {self.contenuto} '
     # Modifica di contenuto
     def update_contenuto(self, nuovo_contenuto):
         self.contenuto = nuovo_contenuto
-    # Modifica di scadenza
-    def update_scadenza(self, nuova_scadenza):
-        self.scadenza = nuova_scadenza
-    # Modifica di priorita
-    def update_priorita(self, nuova_priorita):
-        self.priorita = nuova_priorita
 
 # Classe ListaTask
 class ListaTask:
@@ -57,14 +46,8 @@ class ListaTask:
             index = str(self.lista_task.index(task) + 1)
             print(index + ' ' + task.to_string()) # to_string è un metodo dell'oggetto Task
 
-    def update(self, task, contenuto, scadenza, priorita):
+    def update(self, task, contenuto):
         task.contenuto = contenuto
-        task.scadenza = scadenza
-        task.priorita = priorita
-
-    #def update_singole(self, task, *args):
-        #for arg in args:
-            #task.arg = arg
 
     def delete(self, indice):
         self.lista_task.remove(self.lista_task[indice - 1])
@@ -72,9 +55,7 @@ class ListaTask:
 # funzione per aggiungere task (aggiungere controlli)
 def aggiungi():
     contenuto = input('Inserisci contenuto: ')
-    scadenza = input('Inserisci scadenza: ')
-    priorita = input('Inserisci priorita: ')
-    task_creato = Task(contenuto,scadenza,priorita)
+    task_creato = Task(contenuto)
     to_do_list.create(task_creato)
     print('Hai inserito correttamente la task nella lista')
 
@@ -98,67 +79,22 @@ def elimina():
             print('Hai eliminato la task con successo.')
             break
         except:
-            print('Errore, inserire una scelta coerente')
-
-# Switch per modificare una task
-def switch_modifica():
-    while True:
-        print('Ti faccio visualizzare le task nella To do List: ')
-        to_do_list.read()
-        print("\nQuesta è l'area di modifica:")
-        print("1. Modifica completa di una task")
-        print("2. Modifica solo un elemento di una task")
-        print("0. Torna indietro")
-        scelta_modifica = input("Inserisci la tua scelta: ")
-        if scelta_modifica == '0':
-            break
-        elif scelta_modifica == '1':
-            modifica_completa()
-            break
-        elif scelta_modifica == '2':
-            switch_modifica_parziale()
-            break
-        else:
-            print("Errore, l'opzione da te selezionata non esiste")
-
-# Switch della modifica parziale
-def switch_modifica_parziale():
-    while True:
-        print("\nQuesta è l'area di modifica parziale:")
-        print("1. Modifica contenuto")
-        print("2. Modifica scadenza")
-        print("3. Modifica priorita")
-        print("0. Torna indietro")
-        scelta_modifica2 = input("Inserisci la tua scelta: ")
-        if scelta_modifica2 == '0':
-            break
-        elif scelta_modifica2 == '1':
-            break
-        elif scelta_modifica2 == '2':
-            break
-        elif scelta_modifica2 == '3':
-            break
-        else:
-            print("Errore, l'opzione da te selezionata non esiste")
+            print('Errore, inserire un numero corrispondente alla task che vuoi eliminare\n')
 
 # funzione per modificare task completamente (aggiungere controlli)
 def modifica_completa():
+    print('Ti faccio visualizzare le task nella To do List: ')
+    to_do_list.read()
     while True:
         scelta = input('Indica il numero della task da aggiornare: ')
         contenuto = input('Inserisci il nuovo contenuto: ')
-        scadenza = input('Inserisci la nuova scadenza: ')
-        priorita = input('Inserisci la nuova  priorita: ')
         # Costrutto per gestire gli errori di input di 'scelta'
         try:
-            to_do_list.update(to_do_list.lista_task[int(scelta) - 1], contenuto, scadenza, priorita)
+            to_do_list.update(to_do_list.lista_task[int(scelta) - 1], contenuto)
             print('Hai aggiornato la task con successo.')
             break
         except:
             print('Errore, inserire un numero intero come scelta')
-
-# funzione per modificare task parzialmente (da implementare)
-def modifica_parziale():
-    print("Non ancora disponibile!")
 
 # Switch accesso
 def switch_accesso():
@@ -174,44 +110,10 @@ def switch_accesso():
             break
         # navigazione con scelte
         elif scelta_accesso == '1':
-            switch_navigazione_liste()
+            switch_navigazione_task()
         # opzione inesistente
         else:
             print("Errore, l'opzione da te selezionata non esiste\n")
-
-# Switch navigazione liste
-def switch_navigazione_liste():  
-    accensione_lista = True
-    
-    while accensione_lista:
-        print("\nBenvenuto nell' App della To Do List")
-        print("1. Aggiungi una lista")
-        print("2. Visualizza le liste")
-        print("3. Elimina lista")
-        print("4. Modifica la lista")
-        print("0. Torna indietro")
-        scelta = input("Inserisci la tua scelta: ")
-        print()
-
-        if scelta == '0':
-            #richiesta tornare indietro al menu di accesso
-            accensione_lista = False
-
-        elif scelta == '1':
-            print("Non ancora disponibile!")
-            
-        elif scelta == '2':
-            print("Non ancora disponibile!")
-
-        elif scelta == '3':
-            print("Non ancora disponibile!")
-
-        elif scelta == '4':
-            switch_navigazione_task()
-
-        else:
-            #opzione inesistente
-            print("Errore, l'opzione da te selezionata non esiste")
 
 # Switch di navigazione menu
 def switch_navigazione_task():  
@@ -245,15 +147,15 @@ def switch_navigazione_task():
 
         elif scelta == '4':
             # Aggiornare la task
-            switch_modifica()
+            modifica_completa()
 
         else:
             #opzione inesistente
             print("Errore, l'opzione da te selezionata non esiste")
 
 # inizializzazione dell' oggetto di lista task  
-task1 = Task('Programmazione', '18:00', 'Alta')
-task2 = Task('Fare la spesa', '19:00', 'Media')
+task1 = Task('Programmazione')
+task2 = Task('Fare la spesa')
 to_do_list = ListaTask()  
 to_do_list.lista_task = [task1, task2]
 
