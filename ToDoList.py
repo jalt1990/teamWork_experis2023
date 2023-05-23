@@ -104,12 +104,18 @@ def switch():
                 to_do_list.read()
 
         elif scelta == '3':
-            # Eliminare task dalla to do list
-            print('Ti faccio visualizzare le task nella To do List: ')
-            to_do_list.read()
-            scelta = input('Indica il numero della task da eliminare: ')
-            to_do_list.delete(int(scelta)) #proviamo :D
-            print('Hai eliminato la task con successo.')
+            while True:
+                # Eliminare task dalla to do list
+                print('Ti faccio visualizzare le task nella To do List: ')
+                to_do_list.read()
+                scelta = input('Indica il numero della task da eliminare: ')
+                # Costrutto per gestire gli errori di input
+                try:
+                    to_do_list.delete(int(scelta))
+                    print('Hai eliminato la task con successo.')
+                    break
+                except:
+                    print('Errore, inserire una scelta coerente')
 
         
         elif scelta == '4':
