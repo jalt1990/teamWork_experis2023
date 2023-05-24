@@ -9,6 +9,8 @@ Aggiungere alle Task la priorità, data di scadenza, stato di attività
 #                      stato di attività (concluso, non concluso),
 #                      priorita (Alta, Media, Bassa)
 
+# URGENTE DA FINIRE --> MENU DI MODIFICA TASK COMPLETO / PARZIALE
+
 
 # importo libreria per gestire le date
 import datetime
@@ -24,7 +26,7 @@ class Task:
         self.scadenza = scadenza  # data di scadenza task
 
     def to_string(self):
-        return f'Contenuto: {self.contenuto}\n  Scadenza: {self.scadenza}\nStatus: {self.read_status()}\n  Priorità : {self.priorita}\n'
+        return f'Contenuto: {self.contenuto}\n  Scadenza: {self.scadenza}\n  Status: {self.read_status()}\n  Priorità : {self.priorita}\n'
     
     # Modifica dello status come completata
     def update_status(self):
@@ -128,8 +130,13 @@ def aggiungiDettagliTask(task_creato):
         print('Vuoi personalizzare anche la priorità?')
         risposta = input('Si/No :')
         if risposta.lower() == 'si':
-            valore = input('Inserisci il valore della priorità tra i seguenti (Alta, Media , Bassa):').lower().capitalize()
-            task_creato.set_priorita(valore)
+            while True:
+                valore = input('Inserisci il valore della priorità tra i seguenti (Alta, Media , Bassa):').lower().capitalize()
+                if valore in ['Alta', 'Media', 'Bassa']:
+                    task_creato.set_priorita(valore)
+                    break
+                else:
+                    print('Per Favore inserisci una parola tra le seguenti : Alta/Media/Bassa')
             break
         elif risposta.lower() == 'no':
             print("Hai scelto di non inserire dettagli priorità")
