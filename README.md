@@ -1,9 +1,9 @@
 # teamWork_experis2023
 MEMBRI DEL TEAM 3:
--Franco Rinaldi - https://github.com/jalt1990
--Carlo Schiano Di Cola - https://github.com/tbnh62
--Monica Parmigiani - https://github.com/monicaparmigiani 
--Giorgio Cappello - https://github.com/GiorgioCappello
+ -Franco Rinaldi - https://github.com/jalt1990
+ -Carlo Schiano Di Cola - https://github.com/tbnh62
+ -Monica Parmigiani - https://github.com/monicaparmigiani 
+ -Giorgio Cappello - https://github.com/GiorgioCappello
 
 TEAMWORKING RIFERITO AD ANALISI E SVILUPPO
 DI APP GESTIONE TASK CON SERVIZI CRUD
@@ -37,14 +37,16 @@ REGOLE DI GRUPPO
   - raggruppamento del codice in base al tipo (classi, funzioni, test, etc...).
   
 5. FEATURE DA IMPLEMENTARE:
-  - scadenza sulle liste;
-  - allert della scadenza (usando la libreria date-time);
-  - salvataggio di backup su file di testo;
-  - aggiungere un calendario;
+  - possibilità di implementare più liste, ognuna con nome di riferimento o di categoria,
+    con relativa data di scadenza e le diverse task all'interno;
+  - inserimento di un alert per i giorni mancanti alla scadenza;
+  - inserimento di un filtro controllo per le task e le liste attive, mostrando anche una deadline;
+  - inserimento di un filtro task scaduta/non scaduta;
+  - inserimento di un sistema di comunicazione con app calendario esterne;
+  - implentazione di funzione di import/export per file di backup;
   - ordinamento delle liste per priorità, scadenza, o da completare;
-  - progressivo dell'esecuzione delle liste (in percentuale);
-  - controllo delle task attive filtrate con la date-time;
-  - aggiungere un nome utente + password.
+  - visualizzazione del progressivo dell'esecuzione delle liste (in percentuale);
+  - gestione di più profili (nome utente e password).
 
 
 
