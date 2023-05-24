@@ -180,10 +180,7 @@ def modifica_status():
 
 # funzione per visualizzare task
 def visualizza():
-    if len(to_do_list.lista_task) == 0:
-        print('La lista è vuota')
-    else:
-        to_do_list.read()
+    to_do_list.read()
 
 # funzione per eliminare task
 def elimina():
@@ -333,19 +330,31 @@ def switch_navigazione_task():
             
         elif scelta == '2':
             # Visualizza le task nella to do list
-            visualizza()
+            if len(to_do_list.lista_task) == 0:
+                print('Non ci sono Task salvati finora.')
+            else:
+                visualizza()
 
         elif scelta == '3':
             # Elimina una task esistente
-            elimina()
+            if len(to_do_list.lista_task) == 0:
+                print('Non ci sono Task salvati finora che possano quindi essere eliminati.')
+            else:           
+                elimina()
 
         elif scelta == '4':
             # Aggiornare la task
-            switch_modifica()
+            if len(to_do_list.lista_task) == 0:
+                print('Non ci sono Task salvati finora che possano quindi essere aggiornati.')
+            else:
+                switch_modifica()
     
         elif scelta == '5':
             # Aggiornare lo status della task
-            modifica_status()
+            if len(to_do_list.lista_task) == 0:
+                print('Non ci sono Task salvati finora che possano quindi essere aggiornati sullo status.')
+            else:
+                modifica_status()
 
         else:
             #opzione inesistente
