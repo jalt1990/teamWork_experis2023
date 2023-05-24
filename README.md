@@ -1,50 +1,63 @@
 # teamWork_experis2023
-Esercizi di lavoro in gruppo fatto tra Franco, Carlo, Monica e Giorgio
+MEMBRI DEL TEAM 3:
+-Franco Rinaldi - https://github.com/jalt1990
+-Carlo Schiano Di Cola - https://github.com/tbnh62
+-Monica Parmigiani - https://github.com/monicaparmigiani 
+-Giorgio Cappello - https://github.com/GiorgioCappello
 
-RIFERIMENTO DELLE REGOLE DI GRUPPO
+TEAMWORKING RIFERITO AD ANALISI E SVILUPPO
+DI APP GESTIONE TASK CON SERVIZI CRUD
 
-1. coordinamento fra noi:
-  - analisi dei requisiti individuale 5 min + 5 min collettivo
-  - pianificazione del tempo
-  - task (analisi problema - architettura strutturale - algoritmi)
-  - comunicazioni interne per portarci tutti allo stesso livello
-  - gestione dello sprint in base alle tempistiche
 
-2. commit?
-  - pull/push 
-  - bozza e commenti dell'analisi (commit)
-  - ogni volta che ci sono state modifiche importanti
+REGOLE DI GRUPPO
 
-3. commenti
-  - uno per definire classe o funzione al di sopra
-  - laterale se corti
-  - accanto agli script in caso di necessità per spiegare l'algoritmo
+1. Coordinamento:
+  - requisiti individuale preliminare e brainstorming collettivo;
+  - pianificazione del tempo durante il brainstorming;
+  - pianificazione delle task urgenti;
+  - comunicazioni agili eliminando barriere gerarchiche con il massimo rispetto reciproco;
+  - gestione dello sprint in base alle tempistiche con assegnazione task.
 
-4. CLEAN CODE
-  - nomi delle variabili con underscore.
-  - nomi delle Classi e delle funzioni in camelCase.
-  - nomi che abbiano un significato inerente.
+2. Commit on GitHub:
+  - pull a inizio lavoro, con file separati;
+  - push dei file personali sulla cartella condivisa ogni aggiornamento importante;
+  - il teamleader, o chi per sua vece, ha l'onere di unire i file compositi;
+  - le cancellazioni solo ed esclusivamente se decise in gruppo.
+
+3. Dove e Quando inserire i Commenti:
+  - uno per definire classe o funzione al di sopra delle stesse;
+  - laterale se corti;
+  - accanto agli script in caso di necessità per spiegare l'algoritmo;
+  - a più righe se il blocco è particolarmente complesso da leggere.
+
+4. CLEAN CODE:
+  - nomi delle variabili con underscore;
+  - nomi delle Classi e delle funzioni in camelCase;
+  - nomi che abbiano un significato coerente;
+  - raggruppamento del codice in base al tipo (classi, funzioni, test, etc...).
   
 5. FEATURE DA IMPLEMENTARE:
-  - scadenza sulle liste
-  - allert della scadenza (usando la date-time)
-  - salvataggio su file di testo di backup
-  - Aggiungere un calendario 
-  - Ordinamento delle liste per priorità, scadenza, o da fare
-  - Progressivo dell'esecuzione delle liste (in percentuale)
-  - Controllo delle task attive usando la date-time
-  - Aggiungere un nome utente + password
+  - scadenza sulle liste;
+  - allert della scadenza (usando la libreria date-time);
+  - salvataggio di backup su file di testo;
+  - aggiungere un calendario;
+  - ordinamento delle liste per priorità, scadenza, o da completare;
+  - progressivo dell'esecuzione delle liste (in percentuale);
+  - controllo delle task attive filtrate con la date-time;
+  - aggiungere un nome utente + password.
 
 
-________________________________________
+
+
+____________________________________________________________
 MANUALE DI ISTRUZIONI - REALEASE 2.0
-________________________________________
-
+____________________________________________________________
 L'app si avvia dal menu di accesso (1)
-________________________________________
-1. MENU DI ACCESSO
-________________________________________
 
+
+____________________________________________________________
+1. MENU DI ACCESSO
+____________________________________________________________
 Nel menu di Accesso appare il seguente messaggio di Benvenuto che invita a entrare nell'App
 o a uscire da essa:
 
@@ -53,9 +66,9 @@ Benvenuto nell' App della To Do List
 0. Esci
 
 
-________________________________________
-1.1 Entra
-________________________________________
+____________________________________________________________
+1.1 --> Entra
+____________________________________________________________
 Una volta entrati nell' app appare il menu Principale con le seguenti funzioni:
 
 Benvenuto nell' App della To Do List.
@@ -119,7 +132,6 @@ Torna poi al Menu di Benvenuto (1.1 Entra)
 ____________________________________________________________
 1.1.4.2 --> Modifica solo un elemento di una task
 ____________________________________________________________
-
 Apparirà all' utente il seguente menu di navigazione:
 
 Questa è l'area di modifica parziale:
@@ -137,14 +149,12 @@ finchè l'utente non seleziona 0 che riporta al Menu di Benvenuto (1.1 Entra)
 ____________________________________________________________
 1.1.4.0 --> Torna indietro
 ____________________________________________________________
-
 riporta al Menu di Benvenuto (1.1 Entra)
 
 
 ____________________________________________________________
 1.1.5 --> Aggiorna Status della Task
 ____________________________________________________________
-
 Se la lista delle task ha almeno un elemento, permette di aggiornare lo status
 di una task dalla Lista delle task selezionandola tramite l'indice di riferimento.
 Eseguita l'operazione, viene visualizzata la task aggiornata con lo status,

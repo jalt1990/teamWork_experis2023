@@ -1,9 +1,10 @@
 """
-RELEASE 1.00
-Fare una ToDoList che abbia un sistema CRUD (Create, Read, Update, Delete) 
+RELEASE 1.0
+Fare una ToDoList che abbia un sistema CRUD (Create, Read, Update, Delete)
+riguardo la gestione di task da parte di un utente
 
 """
-
+################################### AREA APPUNTI DI SVILUPPO ##################################################
 # funzione switch che avvia app
 # menu: C - R - U - D
 
@@ -12,8 +13,11 @@ Fare una ToDoList che abbia un sistema CRUD (Create, Read, Update, Delete)
 
 
 # CLASSE OGGETTI TASK-list
-# Liste di task!
+# Liste di task
 # conviene creare una classe con metodi che vadano a fare lavoro di CRUD
+
+
+################################### AREA DI IMPLEMENTAZIONE ##################################################
 
 # Classe Task
 class Task:
@@ -34,18 +38,22 @@ class ListaTask:
 
     def __init__(self):
         pass
-
+    
+    # crea un task nella listaTask
     def create(self, task):
         self.lista_task.append(task)
     
+    # Legge i task nella listaTask
     def read(self):
         for task in self.lista_task:
             index = str(self.lista_task.index(task) + 1)
             print(index + ' ' + task.to_string()) # to_string è un metodo dell'oggetto Task
 
+    # Aggiorna il conteunto del task selezionato nella lista task
     def update(self, task, contenuto):
         task.contenuto = contenuto
 
+    # Elimina il task dalla listaTask
     def delete(self, indice):
         self.lista_task.remove(self.lista_task[indice - 1])
 
@@ -58,10 +66,7 @@ def aggiungi():
 
 # funzione per visualizzare task
 def visualizza():
-    if len(to_do_list.lista_task) == 0:
-        print('La lista è vuota')
-    else:
-        to_do_list.read()
+    to_do_list.read()
 
 # funzione per eliminare task
 def elimina():
@@ -128,7 +133,7 @@ def switch_navigazione_task():
         print()
 
         if scelta == '0':
-            #richiesta tornare indietro al menu di accesso
+            # Richiesta tornare indietro al menu di accesso
             accensione = False
 
         elif scelta == '1':
@@ -137,24 +142,35 @@ def switch_navigazione_task():
             
         elif scelta == '2':
             # Visualizza le task nella to do list
-            visualizza()
+            if len(to_do_list.lista_task) == 0:
+                print('Non ci sono Task salvate finora che possano quindi essere visualizzate.')
+            else:
+                print("Questi sono i task salvati:")           
+                visualizza()
 
         elif scelta == '3':
             # Elimina una task esistente
-            elimina()
+            if len(to_do_list.lista_task) == 0:
+                print('Non ci sono Task salvate finora che possano quindi essere eliminate.')
+            else:           
+                elimina()
 
         elif scelta == '4':
             # Aggiornare la task
-            modifica_completa()
+            if len(to_do_list.lista_task) == 0:
+                print('Non ci sono Task salvate finora che possano quindi essere aggiornate.')
+            else:
+                modifica_completa()
 
         else:
-            #opzione inesistente
+            # opzione inesistente
             print("Errore, l'opzione da te selezionata non esiste")
 
-# inizializzazione dell' oggetto di lista task  
+# inizializzazione dell' oggetto di lista task per demo
 task1 = Task('Programmazione')
 task2 = Task('Fare la spesa')
 to_do_list = ListaTask()  
-to_do_list.lista_task = [task1, task2]
+to_do_list.create(task1)
+to_do_list.create(task2)
 
 switch_accesso()
