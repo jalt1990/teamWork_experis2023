@@ -9,7 +9,6 @@ Aggiungere alle Task la priorità, data di scadenza, stato di attività
 #                      stato di attività (concluso, non concluso),
 #                      priorita (Alta, Media, Bassa)
 
-# URGENTE DA FINIRE --> 
 
 # importo libreria per gestire le date
 import datetime
