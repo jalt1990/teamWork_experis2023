@@ -4,7 +4,7 @@
 
    Description: Simulation of a task management system.    
       <br>
-MEMBRI DEL TEAM 3:
+MEMBRI DEL TEAM 3: <br>
  -Franco Rinaldi - https://github.com/jalt1990 <br>
  -Carlo Schiano Di Cola - https://github.com/tbnh62 <br>
  -Monica Parmigiani - https://github.com/monicaparmigiani <br>
