@@ -40,7 +40,7 @@ RIFERIMENTO DELLE REGOLE DI GRUPPO
   - scadenza sulle liste
   - allert della scadenza (usando la date-time)
   - salvataggio su file di testo di backup
-  - Aggiungere un calendario
+  - Aggiungere un calendario 
   - Ordinamento delle liste per priorità, scadenza, o da fare
   - Progressivo dell'esecuzione delle liste (in percentuale)
   - Controllo delle task attive usando la date-time
