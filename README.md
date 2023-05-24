@@ -24,19 +24,8 @@ RIFERIMENTO DELLE REGOLE DI GRUPPO
   - nomi delle variabili con underscore.
   - nomi delle Classi e delle funzioni in camelCase.
   - nomi che abbiano un significato inerente.
-
-5. DA FARE URGENTE:
-  - Modificare i menu a blocchi di più funzioni     --Fatto
-  - Ottimizzare le classi oggetti liste             --Fatto
-  - Ottimizzare le classi oggetti task              --Fatto
-  - imparare a usare il date-time                   --Fatto
-  - previsione degli errori (try - catch)           --Fatto
-  - migliorare i metodi di Crud                     --Fatto
-  - scelta di cosa modificare nei task              --Fatto
-  - aggiustare i commenti e leggibilità del codice  
   
-6. FEATURE DA IMPLEMENTARE:
-  - singole task con scadenza                       --Fatto
+5. FEATURE DA IMPLEMENTARE:
   - scadenza sulle liste
   - allert della scadenza (usando la date-time)
   - salvataggio su file di testo di backup
