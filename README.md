@@ -1,12 +1,17 @@
 # teamWork_experis2023
-MEMBRI DEL TEAM 3:
- -Franco Rinaldi - https://github.com/jalt1990
- -Carlo Schiano Di Cola - https://github.com/tbnh62
- -Monica Parmigiani - https://github.com/monicaparmigiani 
- -Giorgio Cappello - https://github.com/GiorgioCappello
+![team-3](https://github.com/simonedimeglio/4_teams_Python_Academy_2023/assets/78272736/e62315dc-1c7c-4b43-9183-cfbacae543ea)
+**Project 3: TO-DO LIST**
 
-TEAMWORKING RIFERITO AD ANALISI E SVILUPPO
-DI APP GESTIONE TASK CON SERVIZI CRUD
+   Description: Simulation of a task management system.    
+      <br>
+MEMBRI DEL TEAM 3:
+ -Franco Rinaldi - https://github.com/jalt1990 <br>
+ -Carlo Schiano Di Cola - https://github.com/tbnh62 <br>
+ -Monica Parmigiani - https://github.com/monicaparmigiani <br>
+ -Giorgio Cappello - https://github.com/GiorgioCappello <br>
+
+**TEAMWORKING RIFERITO AD ANALISI E SVILUPPO
+DI APP GESTIONE TASK CON SERVIZI CRUD**
 
 
 REGOLE DI GRUPPO
