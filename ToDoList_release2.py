@@ -9,8 +9,7 @@ Aggiungere alle Task la priorità, data di scadenza, stato di attività
 #                      stato di attività (concluso, non concluso),
 #                      priorita (Alta, Media, Bassa)
 
-# URGENTE DA FINIRE --> MENU DI MODIFICA TASK COMPLETO / PARZIALE
-
+# URGENTE DA FINIRE --> MENU DI MODIFICA PARZIALE
 
 # importo libreria per gestire le date
 import datetime
@@ -44,7 +43,7 @@ class Task:
         else:
             return 'Non Completato'
         
-    # Priorita
+    # Modifica di priorita
     def set_priorita(self, valore):
         # controlla che il valore sia nei valori concessi
         if valore in ['Alta', 'Media', 'Bassa']:
@@ -76,10 +75,9 @@ class ListaTask:
             index = str(self.lista_task.index(task) + 1)
             print(index + ' ' + task.to_string()) # to_string è un metodo dell'oggetto Task
 
-    def update(self, task, contenuto, scadenza, priorita):
+    def update(self, task, contenuto, scadenza):
         task.contenuto = contenuto
         task.scadenza = scadenza
-        task.priorita = priorita
 
     def delete(self, indice):
         self.lista_task.remove(self.lista_task[indice - 1])
@@ -117,26 +115,31 @@ def richiesta_data_e_ora():
 
 # funzione per aggiungere task
 def aggiungi():
-    contenuto = input('Inserisci contenuto: ')
-    data = richiesta_data_e_ora()
-    task_creato = Task(contenuto,data)
-    aggiungiDettagliTask(task_creato)
-    to_do_list.create(task_creato)
-    print('Hai inserito correttamente la task nella lista')
+    while True:
+        contenuto = input('Inserisci contenuto (exit per uscire): ')
+        if controllo_uscita(contenuto):
+            break
+        else:
+            data = richiesta_data_e_ora()
+            task_creato = Task(contenuto,data)
+            aggiungiDettagliTask(task_creato)
+            to_do_list.create(task_creato)
+            print('Hai inserito correttamente la task nella lista')
+            break
 
 # funzione per aggiungere dettagli alle task:
 def aggiungiDettagliTask(task_creato):
     while True:    
         print('Vuoi personalizzare anche la priorità?')
-        risposta = input('Si/No :')
+        risposta = input('Si/No: ')
         if risposta.lower() == 'si':
             while True:
-                valore = input('Inserisci il valore della priorità tra i seguenti (Alta, Media , Bassa):').lower().capitalize()
+                valore = input('Inserisci il valore della priorità tra i seguenti (Alta, Media , Bassa): ').lower().capitalize()
                 if valore in ['Alta', 'Media', 'Bassa']:
                     task_creato.set_priorita(valore)
                     break
                 else:
-                    print('Per Favore inserisci una parola tra le seguenti : Alta/Media/Bassa')
+                    print('Per favore inserisci una parola tra le seguenti : Alta/Media/Bassa')
             break
         elif risposta.lower() == 'no':
             print("Hai scelto di non inserire dettagli priorità")
@@ -149,16 +152,19 @@ def modifica_status():
     print('Ti faccio visualizzare le task nella To do List: ')
     to_do_list.read()
     while True:
-        scelta = input('Indica il numero della task di cui vuoi modificare lo status: ')
-        # Costrutto per gestire gli errori di input di 'scelta'
-        try:
-            x = int(scelta) - 1
-            to_do_list.lista_task[x].update_status()
-            print('Ti faccio rivisualizzare la task aggiornata:')
-            print(scelta + '.' + to_do_list.lista_task[x].to_string())
+        scelta = input('Indica il numero della task di cui vuoi modificare lo status (exit per uscire): ')
+        if controllo_uscita(scelta):
             break
-        except:
-            print('Errore, inserire un numero intero come scelta')
+        else:
+            # Costrutto per gestire gli errori di input di 'scelta'
+            try:
+                x = int(scelta) - 1
+                to_do_list.lista_task[x].update_status()
+                print('Ti faccio rivisualizzare la task aggiornata:')
+                print(scelta + '.' + to_do_list.lista_task[x].to_string())
+                break
+            except:
+                print('Errore, inserire un numero intero come scelta')
 
 # funzione per visualizzare task
 def visualizza():
@@ -173,38 +179,47 @@ def elimina():
         # Eliminare task dalla to do list
         print('Ti faccio visualizzare le task nella To do List: ')
         to_do_list.read()
-        scelta = input('Indica il numero della task da eliminare: ')
-        # Costrutto per gestire gli errori di input di 'scelta'
-        try:
-            to_do_list.delete(int(scelta))
-            print('Hai eliminato la task con successo.')
+        scelta = input('Indica il numero della task da eliminare (exit per uscire): ')
+        if controllo_uscita(scelta):
             break
-        except:
-            print('Errore, inserire una scelta coerente')
+        else:
+        # Costrutto per gestire gli errori di input di 'scelta'
+            try:
+                to_do_list.delete(int(scelta))
+                print('Hai eliminato la task con successo.')
+                break
+            except:
+                print('Errore, inserire una scelta coerente')
 
 # funzione per modificare task completamente
-def modifica_completa():
-    print('Ti faccio visualizzare le task nella To do List: ')
-    to_do_list.read()
+def modifica_completa(x):
     while True:
-        scelta = input('Indica il numero della task da aggiornare: ')
         # Costrutto per gestire gli errori di input di 'scelta'
         try:
-            x = int(scelta) - 1
             contenuto = input('Inserisci il nuovo contenuto: ')
             data = richiesta_data_e_ora()
+            aggiungiDettagliTask(to_do_list.lista_task[x])
             to_do_list.update(to_do_list.lista_task[x], contenuto, data)
             print('Hai aggiornato la task con successo.')
             break
         except:
-            print('Errore, inserire un numero intero come scelta')
+            print('Qualcosa è andato storto, riprova!')
 
-# Switch della modifica parziale (da implementare)
-def switch_modifica_parziale():
+# Controllo uscita
+def controllo_uscita(scelta):
+    if scelta.lower() == 'exit':
+        print ("La richiesta corrente è stata annullata. Torno indietro!")
+        return True
+    else:
+        return False
+
+# Switch della modifica parziale (DA IMPLEMENTARE)
+def switch_modifica_parziale(x):
     while True:
         print("\nQuesta è l'area di modifica parziale:")
         print("1. Modifica contenuto")
         print("2. Modifica scadenza")
+        print("3. Modifica priorita")
         print("0. Torna indietro")
         scelta_modifica2 = input("Inserisci la tua scelta: ")
         if scelta_modifica2 == '0':
@@ -213,36 +228,54 @@ def switch_modifica_parziale():
             break
         elif scelta_modifica2 == '2':
             break
+        elif scelta_modifica2 == '3':
+
+            break
         else:
             print("Errore, l'opzione da te selezionata non esiste")
 
 # Switch per modificare una task
 def switch_modifica():
+    print('Ti faccio visualizzare le task nella To do List: ')
+    to_do_list.read()
     while True:
-        print('Ti faccio visualizzare le task nella To do List: ')
-        to_do_list.read()
-        print("\nQuesta è l'area di modifica:")
-        print("1. Modifica completa di una task")
-        print("2. Modifica solo un elemento di una task")
-        print("0. Torna indietro")
-        scelta_modifica = input("Inserisci la tua scelta: ")
-        if scelta_modifica == '0':
-            break
-        elif scelta_modifica == '1':
-            modifica_completa()
-            break
-        elif scelta_modifica == '2':
-            switch_modifica_parziale()
+        scelta_mod = input('Indica il numero della task da aggiornare (exit per uscire): ')
+        if controllo_uscita(scelta_mod):
             break
         else:
-            print("Errore, l'opzione da te selezionata non esiste")
-
+            try:
+                x = int(scelta_mod) - 1
+                print('\nTi faccio rivisualizzare la task selezionata:\n')
+                print(scelta_mod + '.' + to_do_list.lista_task[x].to_string())
+                break
+            except:
+                print("Per favore, inserire numero intero o exit ")
+    while True:
+        if controllo_uscita(scelta_mod):
+            break
+        else:
+            print("Questa è l'area di modifica:")
+            print("1. Modifica completa di una task")
+            print("2. Modifica solo un elemento di una task")
+            print("0. Torna indietro")
+            scelta_modifica = input("Inserisci la tua scelta: ")
+            if scelta_modifica == '0':
+                break
+            elif scelta_modifica == '1':
+                modifica_completa(x)
+                break
+            elif scelta_modifica == '2':
+                switch_modifica_parziale(x)
+                break
+            else:
+                print("Errore, l'opzione da te selezionata non esiste")
+        
 # Switch di navigazione menu
 def switch_navigazione_task():  
     accensione = True
     
     while accensione:
-        print("\nBenvenuto nell' App della To Do List")
+        print("\nBenvenuto nell' App della To Do List.")
         print("1. Aggiungi una task")
         print("2. Visualizza tutte le task")
         print("3. Elimina Task")
@@ -300,8 +333,9 @@ def switch_accesso():
             print("Errore, l'opzione da te selezionata non esiste\n")
 
 # inizializzazione dell' oggetto di lista task  
-task1 = Task('Programmazione', '2023-05-24 9:00')
-task2 = Task('Fare la spesa', '2023-05-23 18:15')
+task1 = Task('Esposizione App', '2023-05-25 09:00')
+task1.priorita = 'Alta'
+task2 = Task('Fare la spesa', '2023-05-25 18:15')
 to_do_list = ListaTask()  
 to_do_list.lista_task = [task1, task2]
 

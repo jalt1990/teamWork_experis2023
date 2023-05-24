@@ -26,16 +26,17 @@ RIFERIMENTO DELLE REGOLE DI GRUPPO
   - nomi che abbiano un significato inerente.
 
 5. DA FARE URGENTE:
-  - Modificare i menu a blocchi di più funzioni   --Fatto
-  - Ottimizzare le classi oggetti liste
-  - Ottimizzare le classi oggetti task            
-  - imparare a usare il date-time                 --Fatto
-  - previsione degli errori (try - catch)         --Fatto
-  - migliorare i metodi di Crud                   --Fatto
+  - Modificare i menu a blocchi di più funzioni     --Fatto
+  - Ottimizzare le classi oggetti liste             --Fatto
+  - Ottimizzare le classi oggetti task              --Fatto
+  - imparare a usare il date-time                   --Fatto
+  - previsione degli errori (try - catch)           --Fatto
+  - migliorare i metodi di Crud                     --Fatto
+  - scelta di cosa modificare nei task            
+  - aggiustare i commenti e leggibilità del codice
   
 6. FEATURE DA IMPLEMENTARE:
-  - scelta di cosa modificare nei task            
-  - singole task con scadenza                     
+  - singole task con scadenza                       --Fatto
   - scadenza sulle liste
   - allert della scadenza (usando la date-time)
   - salvataggio su file di testo di backup
