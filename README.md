@@ -32,8 +32,8 @@ RIFERIMENTO DELLE REGOLE DI GRUPPO
   - imparare a usare il date-time                   --Fatto
   - previsione degli errori (try - catch)           --Fatto
   - migliorare i metodi di Crud                     --Fatto
-  - scelta di cosa modificare nei task            
-  - aggiustare i commenti e leggibilità del codice
+  - scelta di cosa modificare nei task              --Fatto
+  - aggiustare i commenti e leggibilità del codice  
   
 6. FEATURE DA IMPLEMENTARE:
   - singole task con scadenza                       --Fatto
