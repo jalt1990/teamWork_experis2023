@@ -1,50 +1,70 @@
 # teamWork_experis2023
-Esercizi di lavoro in gruppo fatto tra Franco, Carlo, Monica e Giorgio
+![team-3](https://github.com/simonedimeglio/4_teams_Python_Academy_2023/assets/78272736/e62315dc-1c7c-4b43-9183-cfbacae543ea)
+**Project 3: TO-DO LIST**
 
-RIFERIMENTO DELLE REGOLE DI GRUPPO
+   Description: Simulation of a task management system.    
+      <br>
+MEMBRI DEL TEAM 3: <br>
+ -Franco Rinaldi - https://github.com/jalt1990 <br>
+ -Carlo Schiano Di Cola - https://github.com/tbnh62 <br>
+ -Monica Parmigiani - https://github.com/monicaparmigiani <br>
+ -Giorgio Cappello - https://github.com/GiorgioCappello <br>
 
-1. coordinamento fra noi:
-  - analisi dei requisiti individuale 5 min + 5 min collettivo
-  - pianificazione del tempo
-  - task (analisi problema - architettura strutturale - algoritmi)
-  - comunicazioni interne per portarci tutti allo stesso livello
-  - gestione dello sprint in base alle tempistiche
+**TEAMWORKING RIFERITO AD ANALISI E SVILUPPO
+DI APP GESTIONE TASK CON SERVIZI CRUD**
 
-2. commit?
-  - pull/push 
-  - bozza e commenti dell'analisi (commit)
-  - ogni volta che ci sono state modifiche importanti
 
-3. commenti
-  - uno per definire classe o funzione al di sopra
-  - laterale se corti
-  - accanto agli script in caso di necessità per spiegare l'algoritmo
+REGOLE DI GRUPPO
 
-4. CLEAN CODE
-  - nomi delle variabili con underscore.
-  - nomi delle Classi e delle funzioni in camelCase.
-  - nomi che abbiano un significato inerente.
+1. Coordinamento:
+  - requisiti individuale preliminare e brainstorming collettivo;
+  - pianificazione del tempo durante il brainstorming;
+  - pianificazione delle task urgenti;
+  - comunicazioni agili eliminando barriere gerarchiche con il massimo rispetto reciproco;
+  - gestione dello sprint in base alle tempistiche con assegnazione task.
+
+2. Commit on GitHub:
+  - pull a inizio lavoro, con file separati;
+  - push dei file personali sulla cartella condivisa ogni aggiornamento importante;
+  - il teamleader, o chi per sua vece, ha l'onere di unire i file compositi;
+  - le cancellazioni solo ed esclusivamente se decise in gruppo.
+
+3. Dove e Quando inserire i Commenti:
+  - uno per definire classe o funzione al di sopra delle stesse;
+  - laterale se corti;
+  - accanto agli script in caso di necessità per spiegare l'algoritmo;
+  - a più righe se il blocco è particolarmente complesso da leggere.
+
+4. CLEAN CODE:
+  - nomi delle variabili con underscore;
+  - nomi delle Classi e delle funzioni in camelCase;
+  - nomi che abbiano un significato coerente;
+  - raggruppamento del codice in base al tipo (classi, funzioni, test, etc...).
   
 5. FEATURE DA IMPLEMENTARE:
-  - scadenza sulle liste
-  - allert della scadenza (usando la date-time)
-  - salvataggio su file di testo di backup
-  - Aggiungere un calendario 
-  - Ordinamento delle liste per priorità, scadenza, o da fare
-  - Progressivo dell'esecuzione delle liste (in percentuale)
-  - Controllo delle task attive usando la date-time
-  - Aggiungere un nome utente + password
+  - possibilità di implementare più liste, ognuna con nome di riferimento o di categoria,
+    con relativa data di scadenza e le diverse task all'interno;
+  - inserimento di un alert per i giorni mancanti alla scadenza;
+  - inserimento di un filtro controllo per le task e le liste attive, mostrando anche una deadline;
+  - inserimento di un filtro task scaduta/non scaduta;
+  - inserimento di un sistema di comunicazione con app calendario esterne;
+  - implentazione di funzione di import/export per file di backup;
+  - ordinamento delle liste per priorità, scadenza, o da completare;
+  - visualizzazione del progressivo dell'esecuzione delle liste (in percentuale);
+  - gestione di più profili (nome utente e password).
 
 
-________________________________________
+
+
+____________________________________________________________
 MANUALE DI ISTRUZIONI - REALEASE 2.0
-________________________________________
-
+____________________________________________________________
 L'app si avvia dal menu di accesso (1)
-________________________________________
-1. MENU DI ACCESSO
-________________________________________
 
+
+____________________________________________________________
+1. MENU DI ACCESSO
+____________________________________________________________
 Nel menu di Accesso appare il seguente messaggio di Benvenuto che invita a entrare nell'App
 o a uscire da essa:
 
@@ -53,9 +73,9 @@ Benvenuto nell' App della To Do List
 0. Esci
 
 
-________________________________________
-1.1 Entra
-________________________________________
+____________________________________________________________
+1.1 --> Entra
+____________________________________________________________
 Una volta entrati nell' app appare il menu Principale con le seguenti funzioni:
 
 Benvenuto nell' App della To Do List.
@@ -119,7 +139,6 @@ Torna poi al Menu di Benvenuto (1.1 Entra)
 ____________________________________________________________
 1.1.4.2 --> Modifica solo un elemento di una task
 ____________________________________________________________
-
 Apparirà all' utente il seguente menu di navigazione:
 
 Questa è l'area di modifica parziale:
@@ -137,14 +156,12 @@ finchè l'utente non seleziona 0 che riporta al Menu di Benvenuto (1.1 Entra)
 ____________________________________________________________
 1.1.4.0 --> Torna indietro
 ____________________________________________________________
-
 riporta al Menu di Benvenuto (1.1 Entra)
 
 
 ____________________________________________________________
 1.1.5 --> Aggiorna Status della Task
 ____________________________________________________________
-
 Se la lista delle task ha almeno un elemento, permette di aggiornare lo status
 di una task dalla Lista delle task selezionandola tramite l'indice di riferimento.
 Eseguita l'operazione, viene visualizzata la task aggiornata con lo status,

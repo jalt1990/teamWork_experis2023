@@ -1,27 +1,50 @@
 """
 RELEASE 2.00
-Aggiungere alle Task la priorità, data di scadenza, stato di attività 
+Fare una ToDoList che abbia un sistema CRUD (Create, Read, Update, Delete)
+riguardo la gestione di task da parte di un utente.
+Aggiungere alle Task le seguenti caratteristiche:
+-la priorità,
+-data di scadenza,
+-stato di attività 
 """
+################################### AREA APPUNTI DI SVILUPPO ##################################################
 
 # CLASSE OGGETTI TASK:
 # ogni task deve avere il contenuto,
-#                      la scadenza (entro quando va fatto?),
-#                      stato di attività (concluso, non concluso),
+#                      la scadenza (entro quando va completata la task ?),
+#                      stato di attività (completata, non completata),
 #                      priorita (Alta, Media, Bassa)
+
+
+"""
+INDICE:
+
+RIGA 35  - CLASSI
+RIGA 119 - FUNZIONI DI AUSILIO
+RIGA 199 - FUNZIONI DI CRUD
+RIGA 266 - FUNZIONI DI NAVIGAZIONE
+RIGA 442 - AREA DEMO
+"""
+
+############################### AREA DI IMPLEMENTAZIONE ############################################
 
 
 # importo libreria per gestire le date
 import datetime
 
+######################################   CLASSI   ##################################################
+
+
 # Classe Task
 class Task:
     # stato della task se completato o non -- Default: non completato
+    # priorita -- Default : Media
     status = False
     priorita = 'Media'
 
     # Metodo costruttore
     def __init__(self, contenuto, scadenza):
-        self.contenuto = contenuto #string
+        self.contenuto = contenuto # string
         self.scadenza = scadenza  # data di scadenza task
 
     # Visualizzazione Task
@@ -48,14 +71,15 @@ class Task:
     def update_priorita(self, valore):
         self.priorita = valore
 
-    # Modifica di contenuto (nella modifica parziale)
+    # Modifica del contenuto della task (nella modifica parziale)
     def update_contenuto(self, nuovo_contenuto):
         self.contenuto = nuovo_contenuto
 
-    # Modifica di scadenza (nella modifica parziale)
+    # Modifica della scadenza (nella modifica parziale)
     def update_scadenza(self, nuova_scadenza):
         self.scadenza = nuova_scadenza
     
+
 # Classe ListaTask
 class ListaTask:
     # attributi di classe
@@ -71,6 +95,9 @@ class ListaTask:
     
     # stampa le task contenute nella lista
     def read(self):
+        """Esplora la lista contenuta nell'oggetto ListaTask,
+        per ogni oggetto in lista, recupera l'indice che quell'oggetto occupa in lista,
+        e stampalo insieme ai dati dell'oggetto stesso"""
         for task in self.lista_task:
             index = str(self.lista_task.index(task) + 1)
             print(index + ' ' + task.to_string()) # to_string è un metodo dell'oggetto Task
@@ -83,6 +110,9 @@ class ListaTask:
     # cancella la task nella lista
     def delete(self, indice):
         self.lista_task.remove(self.lista_task[indice - 1])
+
+
+##################################     FUNZIONI DI AUSILIO     ######################################
 
 # funzione per richiere in input una data
 def richiesta_data_e_ora():
@@ -112,26 +142,12 @@ def richiesta_data_e_ora():
             break
         except:
             if tipo_errore == 1:
-                print("Errore, è stata inserita una data o un'ora non valida. Riprova!\n")
+                print("Errore: è stata inserita una data o un'ora non valida. Per favore, riprova.\n")
             if tipo_errore == 0:
-                print("Errore, inserire numero intero. Riprova!\n")
+                print("Errore: inserire numero intero. Riprova!\n")
         
     return datatime
 
-# funzione per aggiungere task
-def aggiungi():
-    while True:
-        contenuto = input('Inserisci contenuto (exit per uscire): ')
-        # controllo per tornare indietro se l'input è 'exit'
-        if controllo_uscita(contenuto):
-            break
-        else:
-            data = richiesta_data_e_ora()
-            task_creato = Task(contenuto,data)
-            aggiungiDettagliTask(task_creato)
-            to_do_list.create(task_creato)
-            print('Hai inserito correttamente la task nella lista')
-            break
 
 # funzione per aggiungere dettagli alle task:
 def aggiungiDettagliTask(task_creato):
@@ -156,6 +172,49 @@ def aggiungiDettagliTask(task_creato):
         else: 
             print("Errore, scelta non disponibile")
 
+
+# funzione per modificare task completamente
+def modifica_completa(x):
+    contenuto = input('Inserisci il nuovo contenuto: ')
+    data = richiesta_data_e_ora()
+    aggiungiDettagliTask(to_do_list.lista_task[x])
+    # modifico gli attributi contenuto, scadenza e priorita
+    to_do_list.update(to_do_list.lista_task[x], contenuto, data)
+    print('Hai aggiornato la task con successo.')
+
+
+# Controllo uscita
+def controllo_uscita(scelta):
+    if scelta.lower().strip() == 'exit':
+        print ("La richiesta corrente è stata annullata. Torno indietro!")
+        return True
+    else:
+        return False
+
+
+################################   FUNZIONI DI CRUD    ###################################
+
+# funzione per aggiungere task
+def aggiungi():
+    while True:
+        contenuto = input('Inserisci contenuto (exit per uscire): ')
+        # controllo per tornare indietro se l'input è 'exit'
+        if controllo_uscita(contenuto):
+            break
+        else:
+            data = richiesta_data_e_ora()
+            task_creato = Task(contenuto,data)
+            aggiungiDettagliTask(task_creato)
+            to_do_list.create(task_creato)
+            print('Hai inserito correttamente la task nella lista')
+            break
+
+
+# funzione per visualizzare task
+def visualizza():
+    to_do_list.read()
+
+
 # funzione per modificare lo status di una task
 def modifica_status():
     print('Ti faccio visualizzare le task nella To do List: ')
@@ -175,11 +234,9 @@ def modifica_status():
                 print(scelta + '.' + to_do_list.lista_task[x].to_string())
                 break
             except:
-                print('Errore, inserire un numero intero come scelta')
+                print('Errore: Hai inserito un input non valido.')
+                print("Inserisci il numero corrispondente al Task di cui vuoi modificare lo status.\n")
 
-# funzione per visualizzare task
-def visualizza():
-    to_do_list.read()
 
 # funzione per eliminare task
 def elimina():
@@ -198,24 +255,12 @@ def elimina():
                 print('Hai eliminato la task con successo.')
                 break
             except:
-                print('Errore, inserire una scelta coerente')
+                print('Errore: Hai inserito un input non valido.')
+                print("Inserisci il numero corrispondente al Task che vuoi eliminare.\n")
 
-# funzione per modificare task completamente
-def modifica_completa(x):
-    contenuto = input('Inserisci il nuovo contenuto: ')
-    data = richiesta_data_e_ora()
-    aggiungiDettagliTask(to_do_list.lista_task[x])
-    # modifico gli attributi contenuto, scadenza e priorita
-    to_do_list.update(to_do_list.lista_task[x], contenuto, data)
-    print('Hai aggiornato la task con successo.')
+
+############################   FUNZIONI DI NAVIGAZIONE MENU   ################################
  
-# Controllo uscita
-def controllo_uscita(scelta):
-    if scelta.lower().strip() == 'exit':
-        print ("La richiesta corrente è stata annullata. Torno indietro!")
-        return True
-    else:
-        return False
 
 # Switch della modifica parziale
 def switch_modifica_parziale(x):
@@ -309,7 +354,8 @@ def switch_modifica():
                 switch_modifica_parziale(x)
                 break
             else:
-                print("Errore, l'opzione da te selezionata non esiste")
+                print("\nErrore: l'opzione da te selezionata non esiste.")
+                print("Indica un numero intero tra 0 e 2.\n")
         
 # Switch di navigazione menu
 def switch_navigazione_task():  
@@ -327,7 +373,7 @@ def switch_navigazione_task():
         print()
 
         if scelta == '0':
-            #richiesta tornare indietro al menu di accesso
+            # richiesta tornare indietro al menu di accesso
             accensione = False
 
         elif scelta == '1':
@@ -364,7 +410,9 @@ def switch_navigazione_task():
 
         else:
             #opzione inesistente
-            print("Errore, l'opzione da te selezionata non esiste")
+            print("Errore: l'opzione da te selezionata non esiste")
+            print("Inserisci un numero intero compreso tra 0 e 5 senza spazi, grazie.\n")
+
 
 # Switch accesso
 def switch_accesso():
@@ -383,7 +431,11 @@ def switch_accesso():
             switch_navigazione_task()
         # opzione inesistente
         else:
-            print("Errore, l'opzione da te selezionata non esiste\n")
+            print("Errore: l'opzione da te selezionata non esiste")
+            print("Inserisci un numero intero tra 0 e 1 senza spazi, grazie.\n")
+
+
+############################## AREA DEMO ############################
 
 # inizializzazione dell' oggetto di lista task  
 task1 = Task('Esposizione App', '2023-05-25 09:00')
