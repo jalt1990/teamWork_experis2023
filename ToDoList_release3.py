@@ -1,35 +1,19 @@
 """
 RELEASE 3.00
-Fare una ToDoList che abbia un sistema CRUD (Create, Read, Update, Delete)
-riguardo la gestione di task da parte di un utente.
-Aggiungere alle Task le seguenti caratteristiche:
--la priorità,
--data di scadenza,
--stato di attività 
+- Aggiunta la possibilità di avere più liste, ognuna con le proprie task
+- Aggiunta la possibilità di non specificare la data (verrà inserita la data di oggi e l'ora corrente)
 """
 ################################### AREA APPUNTI DI SVILUPPO ##################################################
-
-# CLASSE OGGETTI TASK:
-# ogni task deve avere il contenuto,
-#                      la scadenza (entro quando va completata la task ?),
-#                      stato di attività (completata, non completata),
-#                      priorita (Alta, Media, Bassa)
-
-'''
-Appunti:
-- L'utente deve inizializzare una lista task (programma parte senza liste)
-- Sistema CRUD per le liste
-- Implementare gercarchia lista task (menù)
-'''
 
 """
 INDICE:
 
-RIGA 35  - CLASSI
-RIGA 119 - FUNZIONI DI AUSILIO
-RIGA 199 - FUNZIONI DI CRUD
-RIGA 266 - FUNZIONI DI NAVIGAZIONE
-RIGA 442 - AREA DEMO
+RIGA 25  - CLASSI
+RIGA 109 - FUNZIONI DI AUSILIO
+RIGA 198 - FUNZIONI DI CRUD PER LE TASK
+RIGA 265 - FUNZIONI DI CRUD PER LE LISTE
+RIGA 313 - FUNZIONI DI NAVIGAZIONE
+RIGA 557 - AREA DEMO
 """
 
 ############################### AREA DI IMPLEMENTAZIONE ############################################
@@ -39,7 +23,6 @@ RIGA 442 - AREA DEMO
 import datetime
 
 ######################################   CLASSI   ##################################################
-
 
 # Classe Task
 class Task:
@@ -108,7 +91,7 @@ class ListaTask:
         """Esplora la lista contenuta nell'oggetto ListaTask,
         per ogni oggetto in lista, recupera l'indice che quell'oggetto occupa in lista,
         e stampalo insieme ai dati dell'oggetto stesso"""
-        print("Hai scelto di visualizzare la lista:\n", self.nome)
+        print(self.nome)
         for task in self.lista_task:
             index = str(self.lista_task.index(task) + 1)
             print(index + ' ' + task.to_string()) # to_string è un metodo dell'oggetto Task
@@ -127,38 +110,47 @@ class ListaTask:
 
 # funzione per richiere in input una data
 def richiesta_data_e_ora():
+    while True:    
+        print('Vuoi personalizzare la data?')
+        risposta = input("Si/No (con no verrà inserita l'ora di oggi): ")
+        # controllo sull'input 'risposta'
+        if risposta.lower().strip() == 'si':
+            while True:
+                try:
+                    # per gestire il tipo di errore: se l'input non può essere convertito in intero tipo_errore rimane 0
+                    tipo_errore = 0
+                    # trasformo tutto in int per evitare inserimento di stringhe   
+                    anno = int(input("Inserisci anno: "))
+                    mese = int(input("Inserisci mese: "))
+                    giorno = int(input("Inserisci giorno: "))
+                    ora = int(input("Inserisci ora: "))
+                    minuti = int(input("Inserisci minuti: "))
+                    # se la conversione a intero è corretta per tutti gli input, tipo_errore diventa 1 e l'unico errore possibile è una data o un'ora non valida
+                    tipo_errore = 1
+                    # concateno la data con -
+                    data_str = '-'.join([str(anno), str(mese), str(giorno)])
+                    # concateno l'ora con :
+                    ora_str = ':'.join([str(ora), str(minuti)])
+                    # concateno data e ora con spazio
+                    datetime_str = ' '.join([data_str,ora_str])
+                    # variabile globale che voglio ritornare alla fine della funzione
+                    global datatime
+                    # trasformo stringa in data
+                    datatime = datetime.datetime.strptime(datetime_str, '%Y-%m-%d %H:%M')
+                    break
+                except:
+                    if tipo_errore == 1:
+                        print("Errore: è stata inserita una data o un'ora non valida. Per favore, riprova.\n")
+                    if tipo_errore == 0:
+                        print("Errore: inserire numero intero. Riprova!\n")
+            return datatime
+        elif risposta.lower().strip() == 'no':
+            print("Hai scelto di non inserire dettagli priorità")
+            return datetime.datetime.utcnow()
+        else: 
+            print("Errore, scelta non disponibile")
     print("Ora ci occupiamo della data. Inserisci solo numeri interi!")
-    while True:
-        try:
-            # per gestire il tipo di errore: se l'input non può essere convertito in intero tipo_errore rimane 0
-            tipo_errore = 0
-            # trasformo tutto in int per evitare inserimento di stringhe   
-            anno = int(input("Inserisci anno: "))
-            mese = int(input("Inserisci mese: "))
-            giorno = int(input("Inserisci giorno: "))
-            ora = int(input("Inserisci ora: "))
-            minuti = int(input("Inserisci minuti: "))
-            # se la conversione a intero è corretta per tutti gli input, tipo_errore diventa 1 e l'unico errore possibile è una data o un'ora non valida
-            tipo_errore = 1
-            # concateno la data con -
-            data_str = '-'.join([str(anno), str(mese), str(giorno)])
-            # concateno l'ora con :
-            ora_str = ':'.join([str(ora), str(minuti)])
-            # concateno data e ora con spazio
-            datetime_str = ' '.join([data_str,ora_str])
-            # variabile globale che voglio ritornare alla fine della funzione
-            global datatime
-            # trasformo stringa in data
-            datatime = datetime.datetime.strptime(datetime_str, '%Y-%m-%d %H:%M')
-            break
-        except:
-            if tipo_errore == 1:
-                print("Errore: è stata inserita una data o un'ora non valida. Per favore, riprova.\n")
-            if tipo_errore == 0:
-                print("Errore: inserire numero intero. Riprova!\n")
-        
-    return datatime
-
+    
 
 # funzione per aggiungere dettagli alle task:
 def aggiungi_dettagli_task(task_creato):
@@ -185,7 +177,7 @@ def aggiungi_dettagli_task(task_creato):
 
 
 # funzione per modificare task completamente
-def modifica_completa(x):
+def modifica_completa(x, to_do_list):
     contenuto = input('Inserisci il nuovo contenuto: ')
     data = richiesta_data_e_ora()
     aggiungi_dettagli_task(to_do_list.lista_task[x])
@@ -206,7 +198,7 @@ def controllo_uscita(scelta):
 ################################   FUNZIONI DI CRUD TASK   ###################################
 
 # funzione per aggiungere task
-def aggiungi_task():
+def aggiungi_task(to_do_list):
     while True:
         contenuto = input('Inserisci contenuto (exit per uscire): ')
         # controllo per tornare indietro se l'input è 'exit'
@@ -221,8 +213,13 @@ def aggiungi_task():
             break
 
 
+# funzione per visualizzare le task
+def visualizza_task(to_do_list):
+    to_do_list.read()
+
+
 # funzione per modificare lo status di una task
-def modifica_status():
+def modifica_status(to_do_list):
     print('Ti faccio visualizzare le task nella To do List: ')
     to_do_list.read()
     while True:
@@ -245,7 +242,7 @@ def modifica_status():
 
 
 # funzione per eliminare task
-def elimina_task():
+def elimina_task(to_do_list):
     while True:
         print('Ti faccio visualizzare le task nella To do List: ')
         to_do_list.read()
@@ -274,23 +271,50 @@ def aggiungi_lista():
         if controllo_uscita(nome_lista):
             break
         else:
+            # creazione e inserimento nell'elenco
             lista_creata = ListaTask(nome_lista)
             elenco_liste.append(lista_creata)
-            # inserire modifica task
+            # modifica della lista
+            switch_navigazione_task(elenco_liste[-1])
+            break
 
 
-# funzione per visualizzare la lista con le sue task
-def visualizza():
-    to_do_list.read()
+# visualizza l'elenco delle liste
+def visualizza_liste():
+    for liste in elenco_liste:
+        index = str(elenco_liste.index(liste) + 1)
+        print(index + '. ' + liste.nome) # to_string è un metodo dell'oggetto Task
+        for task in liste.lista_task:
+            print(task.contenuto)
 
 
-
+# elimina una lista esistente
+def elimina_lista():
+    while True:
+        print('Ti faccio visualizzare le liste nella To do List: ')
+        # visualizza tutte le liste contenute nell'elenco liste
+        visualizza_liste()
+        scelta = input('Indica il numero della lista da eliminare (exit per uscire): ')
+        # controllo per tornare indietro se l'input è 'exit'
+        if controllo_uscita(scelta):
+            break
+        else:
+        # Costrutto per gestire gli errori di input di 'scelta'
+            try:    
+                indice_lista = int(scelta) - 1
+                # Elimino lista
+                del elenco_liste[indice_lista]
+                print('Hai eliminato la lista con successo.')
+                break
+            except:
+                print('Errore: Hai inserito un input non valido.')
+                print("Inserisci il numero corrispondente alla Lista che vuoi eliminare.\n")
 
 ############################   FUNZIONI DI NAVIGAZIONE MENU   ################################
  
 
 # Switch della modifica parziale
-def switch_modifica_parziale(x):
+def switch_modifica_parziale(x, to_do_list):
     while True:
         print("\nQuesta è l'area di modifica parziale:")
         print("1. Modifica contenuto")
@@ -341,7 +365,7 @@ def switch_modifica_parziale(x):
             print("Errore, l'opzione da te selezionata non esiste")
 
 # Switch per modificare una task
-def switch_modifica():
+def switch_modifica(to_do_list):
     print('Ti faccio visualizzare le task nella To do List: ')
     to_do_list.read()
     while True:
@@ -374,22 +398,22 @@ def switch_modifica():
                 break
             elif scelta_modifica == '1':
                 # vado a modifica completa
-                modifica_completa(x)
+                modifica_completa(x, to_do_list)
                 break
             elif scelta_modifica == '2':
                 # vado a modifica parziale
-                switch_modifica_parziale(x)
+                switch_modifica_parziale(x, to_do_list)
                 break
             else:
                 print("\nErrore: l'opzione da te selezionata non esiste.")
                 print("Indica un numero intero tra 0 e 2.\n")
         
 # Switch di navigazione menu task
-def switch_navigazione_task():  
+def switch_navigazione_task(to_do_list):  
     accensione = True
     
     while accensione:
-        print("\nBenvenuto nell' App della To Do List.")
+        print("\nStai modificando la lista:", to_do_list.nome)
         print("1. Aggiungi una task")
         print("2. Visualizza tutte le task")
         print("3. Elimina Task")
@@ -405,40 +429,61 @@ def switch_navigazione_task():
 
         elif scelta == '1':
             # Aggiungi una task contenuto, scadenza, priorita, con stato_attivita = 'Non Completato'
-            aggiungi_task()
+            aggiungi_task(to_do_list)
             
         elif scelta == '2':
             # Visualizza le task nella to do list
             if len(to_do_list.lista_task) == 0:
                 print('Non ci sono Task salvate finora che possano quindi essere visualizzate.')
             else:           
-                visualizza_task()
+                visualizza_task(to_do_list)
 
         elif scelta == '3':
             # Elimina una task esistente
             if len(to_do_list.lista_task) == 0:
                 print('Non ci sono Task salvate finora che possano quindi essere eliminate.')
             else:           
-                elimina_task()
+                elimina_task(to_do_list)
 
         elif scelta == '4':
             # Aggiornare la task
             if len(to_do_list.lista_task) == 0:
                 print('Non ci sono Task salvate finora che possano quindi essere aggiornate.')
             else:
-                switch_modifica()
+                switch_modifica(to_do_list)
     
         elif scelta == '5':
             # Aggiornare lo status della task
             if len(to_do_list.lista_task) == 0:
                 print('Non ci sono Task salvate finora che possano quindi essere aggiornate sullo status.')
             else:
-                modifica_status()
+                modifica_status(to_do_list)
 
         else:
             #opzione inesistente
             print("Errore: l'opzione da te selezionata non esiste")
             print("Inserisci un numero intero compreso tra 0 e 5 senza spazi, grazie.\n")
+
+# Switch di scelta lista
+def switch_scelta_lista():
+    while True:
+        print('Ti faccio visualizzare le liste nella To do List: ')
+        # visualizza tutte le liste contenute nell'elenco liste
+        visualizza_liste()
+        scelta = input('Indica il numero della lista da gestire (exit per uscire): ')
+        # controllo per tornare indietro se l'input è 'exit'
+        if controllo_uscita(scelta):
+            break
+        else:
+        # Costrutto per gestire gli errori di input di 'scelta'
+            try:    
+                indice_lista = int(scelta) - 1
+                # Elimino lista
+                switch_navigazione_task(elenco_liste[indice_lista])
+                break
+            except:
+                print('Errore: Hai inserito un input non valido.')
+                print("Inserisci il numero corrispondente alla Lista che vuoi gestire.\n")
 
 # Switch di navigazione menu liste
 def switch_navigazione_liste():  
@@ -467,21 +512,21 @@ def switch_navigazione_liste():
             if len(elenco_liste) == 0:
                 print("L'elenco delle liste è vuoto, non puoi visualizzare")
             else:           
-                visualizza()
+                visualizza_liste()
 
         elif scelta == '3':
             # Elimina una lista esistente
             if len(elenco_liste) == 0:
                 print("L'elenco delle liste è vuoto, non puoi visualizzare")
             else:           
-                print()
+                elimina_lista()
 
         elif scelta == '4':
             # Aggiornare la lista
             if len(elenco_liste) == 0:
                 print("L'elenco delle liste è vuoto, non puoi visualizzare")
             else:
-                switch_navigazione_task()
+                switch_scelta_lista()
 
         else:
             #opzione inesistente
@@ -516,8 +561,8 @@ elenco_liste = []
 task1 = Task('Esposizione App', '2023-05-25 09:00')
 task1.priorita = 'Alta'
 task2 = Task('Fare la spesa', '2023-05-25 18:15')
-to_do_list = ListaTask("Lista1")  
-to_do_list.lista_task = [task1, task2]
-elenco_liste.append(to_do_list)
+to_do_list1 = ListaTask("Lista1")  
+to_do_list1.lista_task = [task1, task2]
+elenco_liste.append(to_do_list1)
 
 switch_accesso()
