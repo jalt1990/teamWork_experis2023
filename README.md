@@ -42,8 +42,6 @@ REGOLE DI GRUPPO
   - raggruppamento del codice in base al tipo (classi, funzioni, test, etc...).
   
 5. FEATURE DA IMPLEMENTARE:
-  - possibilità di implementare più liste, ognuna con nome di riferimento o di categoria,
-    con relativa data di scadenza e le diverse task all'interno;
   - inserimento di un alert per i giorni mancanti alla scadenza;
   - inserimento di un filtro controllo per le task e le liste attive, mostrando anche una deadline;
   - inserimento di un filtro task scaduta/non scaduta;
@@ -51,13 +49,13 @@ REGOLE DI GRUPPO
   - implentazione di funzione di import/export per file di backup;
   - ordinamento delle liste per priorità, scadenza, o da completare;
   - visualizzazione del progressivo dell'esecuzione delle liste (in percentuale);
-  - gestione di più profili (nome utente e password).
+  - gestione di più profili (nome utente, password e mail).
 
 
 
 
 ____________________________________________________________
-MANUALE DI ISTRUZIONI - REALEASE 2.0
+MANUALE DI ISTRUZIONI - REALEASE 3.0
 ____________________________________________________________
 L'app si avvia dal menu di accesso (1)
 
@@ -77,6 +75,48 @@ ____________________________________________________________
 1.1 --> Entra
 ____________________________________________________________
 Una volta entrati nell' app appare il menu Principale con le seguenti funzioni:
+
+Benvenuto nell' App della To Do List.
+1. Aggiungi una lista
+2. Visualizza tutte le liste
+3. Elimina lista
+4. Modifica la lista      
+0. Torna indietro
+
+
+____________________________________________________________
+1.1.1 --> Aggiungi una lista
+____________________________________________________________
+Permette di creare una lista specificandone il nome ed entrando nella 
+switch modifica task (1.1.1.4)
+Torna poi al Menu di Benvenuto (1.1 Entra)
+
+
+____________________________________________________________
+1.1.2 --> Visualizza tutte le liste
+____________________________________________________________
+Permette di visualizzare le singole liste finora memorizzate all'interno dell' App. 
+Se l'elenco è vuoto, visualizza un messaggio che dichiara l'assenza di liste.
+Torna poi al Menu di Benvenuto (1.1 Entra)
+
+
+____________________________________________________________
+1.1.3 --> Elimina Lista
+____________________________________________________________
+Permette di eliminare una lista dall'elenco delle Liste selezionandola 
+tramite l'indice di riferimento.
+Se l'elenco è vuoto, riporta un messaggio di avviso.
+Torna poi al Menu di Benvenuto (1.1 Entra)
+
+
+____________________________________________________________
+1.1.4 --> Modifica la Lista
+____________________________________________________________
+Permette di modificare una task dalla Lista delle task selezionandola 
+tramite l'indice di riferimento.
+
+Una volta selezionata la task da modificare, appare il seguente menu di modifica:
+
 
 Benvenuto nell' App della To Do List.
 1. Aggiungi una task
