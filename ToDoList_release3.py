@@ -203,10 +203,10 @@ def controllo_uscita(scelta):
         return False
 
 
-################################   FUNZIONI DI CRUD    ###################################
+################################   FUNZIONI DI CRUD TASK   ###################################
 
 # funzione per aggiungere task
-def aggiungi():
+def aggiungi_task():
     while True:
         contenuto = input('Inserisci contenuto (exit per uscire): ')
         # controllo per tornare indietro se l'input è 'exit'
@@ -222,7 +222,7 @@ def aggiungi():
 
 
 # funzione per visualizzare task
-def visualizza():
+def visualizza_task():
     to_do_list.read()
 
 
@@ -389,14 +389,14 @@ def switch_navigazione_task():
 
         elif scelta == '1':
             # Aggiungi una task contenuto, scadenza, priorita, con stato_attivita = 'Non Completato'
-            aggiungi()
+            aggiungi_task()
             
         elif scelta == '2':
             # Visualizza le task nella to do list
             if len(to_do_list.lista_task) == 0:
                 print('Non ci sono Task salvate finora che possano quindi essere visualizzate.')
             else:           
-                visualizza()
+                visualizza_task()
 
         elif scelta == '3':
             # Elimina una task esistente
@@ -427,7 +427,7 @@ def switch_navigazione_task():
 # Switch di navigazione menu liste
 def switch_navigazione_liste():  
     accensione = True
-    
+
     while accensione:
         print("\nBenvenuto nell' App della To Do List.")
         print("1. Aggiungi una lista")
@@ -444,21 +444,25 @@ def switch_navigazione_liste():
 
         elif scelta == '1':
             # Aggiungi una lista
-            aggiungi()
             
         elif scelta == '2':
             # Visualizza le liste nella to do list
-            if 
+            if len(elenco_liste) == 0:
+                print("L'elenco delle liste è vuoto, non puoi visualizzare")
             else:           
-                visualizza()
+                visualizza_task()
 
         elif scelta == '3':
             # Elimina una lista esistente
-            
+            if len(elenco_liste) == 0:
+                print("L'elenco delle liste è vuoto, non puoi visualizzare")
+            else:           
+                
 
         elif scelta == '4':
             # Aggiornare la lista
-            if 
+            if len(elenco_liste) == 0:
+                print("L'elenco delle liste è vuoto, non puoi visualizzare")
             else:
                 switch_navigazione_task()
 
@@ -491,10 +495,12 @@ def switch_accesso():
 ############################## AREA DEMO ############################
 
 # inizializzazione dell' oggetto di lista task  
+elenco_liste = []
 task1 = Task('Esposizione App', '2023-05-25 09:00')
 task1.priorita = 'Alta'
 task2 = Task('Fare la spesa', '2023-05-25 18:15')
 to_do_list = ListaTask("Lista1")  
 to_do_list.lista_task = [task1, task2]
+elenco_liste.append(to_do_list)
 
 switch_accesso()
