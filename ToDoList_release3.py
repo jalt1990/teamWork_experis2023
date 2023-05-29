@@ -221,11 +221,6 @@ def aggiungi_task():
             break
 
 
-# funzione per visualizzare task
-def visualizza_task():
-    to_do_list.read()
-
-
 # funzione per modificare lo status di una task
 def modifica_status():
     print('Ti faccio visualizzare le task nella To do List: ')
@@ -250,7 +245,7 @@ def modifica_status():
 
 
 # funzione per eliminare task
-def elimina():
+def elimina_task():
     while True:
         print('Ti faccio visualizzare le task nella To do List: ')
         to_do_list.read()
@@ -268,6 +263,27 @@ def elimina():
             except:
                 print('Errore: Hai inserito un input non valido.')
                 print("Inserisci il numero corrispondente al Task che vuoi eliminare.\n")
+
+
+################################   FUNZIONI DI CRUD LIST  ###################################
+
+# funzione per aggiungere lista
+def aggiungi_lista():
+    while True:
+        nome_lista = input("Aggiungi il nome della lista (exit per uscire): ")
+        if controllo_uscita(nome_lista):
+            break
+        else:
+            lista_creata = ListaTask(nome_lista)
+            elenco_liste.append(lista_creata)
+            # inserire modifica task
+
+
+# funzione per visualizzare la lista con le sue task
+def visualizza():
+    to_do_list.read()
+
+
 
 
 ############################   FUNZIONI DI NAVIGAZIONE MENU   ################################
@@ -403,7 +419,7 @@ def switch_navigazione_task():
             if len(to_do_list.lista_task) == 0:
                 print('Non ci sono Task salvate finora che possano quindi essere eliminate.')
             else:           
-                elimina()
+                elimina_task()
 
         elif scelta == '4':
             # Aggiornare la task
@@ -444,20 +460,21 @@ def switch_navigazione_liste():
 
         elif scelta == '1':
             # Aggiungi una lista
+            aggiungi_lista()
             
         elif scelta == '2':
             # Visualizza le liste nella to do list
             if len(elenco_liste) == 0:
                 print("L'elenco delle liste è vuoto, non puoi visualizzare")
             else:           
-                visualizza_task()
+                visualizza()
 
         elif scelta == '3':
             # Elimina una lista esistente
             if len(elenco_liste) == 0:
                 print("L'elenco delle liste è vuoto, non puoi visualizzare")
             else:           
-                
+                print()
 
         elif scelta == '4':
             # Aggiornare la lista
