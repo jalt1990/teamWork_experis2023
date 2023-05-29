@@ -283,9 +283,9 @@ def aggiungi_lista():
 def visualizza_liste():
     for liste in elenco_liste:
         index = str(elenco_liste.index(liste) + 1)
-        print(index + '. ' + liste.nome) # to_string è un metodo dell'oggetto Task
+        print(index + '. ' + liste.nome + ':') # to_string è un metodo dell'oggetto Task
         for task in liste.lista_task:
-            print(task.contenuto)
+            print(' -', task.contenuto)
 
 
 # elimina una lista esistente
