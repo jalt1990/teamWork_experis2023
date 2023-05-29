@@ -430,11 +430,10 @@ def switch_navigazione_liste():
     
     while accensione:
         print("\nBenvenuto nell' App della To Do List.")
-        print("1. Aggiungi una task")
-        print("2. Visualizza tutte le task")
-        print("3. Elimina Task")
-        print("4. Modifica la Task")
-        print("5. Aggiorna Status della Task")
+        print("1. Aggiungi una lista")
+        print("2. Visualizza tutte le liste")
+        print("3. Elimina lista")
+        print("4. Modifica la lista")
         print("0. Torna indietro")
         scelta = input("Inserisci la tua scelta: ")
         print()
@@ -444,34 +443,29 @@ def switch_navigazione_liste():
             accensione = False
 
         elif scelta == '1':
-            # Aggiungi una task contenuto, scadenza, priorita, con stato_attivita = 'Non Completato'
+            # Aggiungi una lista
             aggiungi()
             
         elif scelta == '2':
-            # Visualizza le task nella to do list
-            if len(to_do_list.lista_task) == 0:
-                print('Non ci sono Task salvate finora che possano quindi essere visualizzate.')
+            # Visualizza le liste nella to do list
+            if 
             else:           
                 visualizza()
 
         elif scelta == '3':
-            # Elimina una task esistente
-            if len(to_do_list.lista_task) == 0:
-                print('Non ci sono Task salvate finora che possano quindi essere eliminate.')
-            else:           
-                elimina()
+            # Elimina una lista esistente
+            
 
         elif scelta == '4':
             # Aggiornare la lista
-            if len(to_do_list.lista_task) == 0:
-                print('Non ci sono Task salvate finora che possano quindi essere aggiornate.')
+            if 
             else:
                 switch_navigazione_task()
 
         else:
             #opzione inesistente
             print("Errore: l'opzione da te selezionata non esiste")
-            print("Inserisci un numero intero compreso tra 0 e 5 senza spazi, grazie.\n")
+            print("Inserisci un numero intero compreso tra 0 e 4 senza spazi, grazie.\n")
 
 # Switch accesso
 def switch_accesso():
