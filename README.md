@@ -88,7 +88,7 @@ ____________________________________________________________
 1.1.1 --> Aggiungi una lista
 ____________________________________________________________
 Permette di creare una lista specificandone il nome ed entrando nella 
-switch modifica task (1.1.1.4)
+switch modifica task (1.1.4)
 Torna poi al Menu di Benvenuto (1.1 Entra)
 
 
@@ -118,7 +118,7 @@ tramite l'indice di riferimento.
 Una volta selezionata la task da modificare, appare il seguente menu di modifica:
 
 
-Benvenuto nell' App della To Do List.
+Stai modificando la lista: 'nome_lista'
 1. Aggiungi una task
 2. Visualizza tutte le task
 3. Elimina Task
@@ -126,35 +126,35 @@ Benvenuto nell' App della To Do List.
 5. Aggiorna Status della Task        
 0. Torna indietro
 
-
+Dove 'nome_lista' è il nome della lista scelta
 ____________________________________________________________
-1.1.1 --> Aggiungi una task
+1.1.4.1 --> Aggiungi una task
 ____________________________________________________________
 Permette di creare una task specificandone il contenuto, la data di scadenza,
 e la priorità (facoltativa).
-Torna poi al Menu di Benvenuto (1.1 Entra)
+Torna poi al Menu di modifica task (1.1.4)
 
 
 ____________________________________________________________
-1.1.2 --> Visualizza tutte le task
+1.1.4.2 --> Visualizza tutte le task
 ____________________________________________________________
 Permette di visualizzare le singole task finora memorizzate all'interno della
 Lista Task dell' App. Se la lista è vuota, visualizza un messaggio che dichiara
 l'assenza di task.
-Torna poi al Menu di Benvenuto (1.1 Entra)
+Torna poi al Menu di modifica task (1.1.4)
 
 
 ____________________________________________________________
-1.1.3 --> Elimina Task
+1.1.4.3 --> Elimina Task
 ____________________________________________________________
 Se la lista delle task ha almeno un elemento, permette di eliminare una task
 dalla Lista delle task selezionandola tramite l'indice di riferimento.
 Se la lista è vuota, riporta un messaggio di avviso.
-Torna poi al Menu di Benvenuto (1.1 Entra)
+Torna poi al Menu di modifica task (1.1.4)
 
 
 ____________________________________________________________
-1.1.4 --> Modifica la Task
+1.1.4.4 --> Modifica la Task
 ____________________________________________________________
 Se la lista delle task ha almeno un elemento, permette di modificare una task
 dalla Lista delle task selezionandola tramite l'indice di riferimento.
@@ -168,16 +168,16 @@ Questa è l'area di modifica:
 
 
 ____________________________________________________________
-1.1.4.1 --> Modifica completa di una task
+1.1.4.4.1 --> Modifica completa di una task
 ____________________________________________________________
 Arriveranno dei messaggi di inserimento input all'utente per indicare il contenuto della task,
 i dati della scadenza, e la priorità aggiornata, per modificare completamente il task
 precedentemente selezionato.
-Torna poi al Menu di Benvenuto (1.1 Entra)
+Torna poi al Menu di modifica task (1.1.4)
 
 
 ____________________________________________________________
-1.1.4.2 --> Modifica solo un elemento di una task
+1.1.4.4.2 --> Modifica solo un elemento di una task
 ____________________________________________________________
 Apparirà all' utente il seguente menu di navigazione:
 
@@ -189,20 +189,20 @@ Questa è l'area di modifica parziale:
 
 L'utente potrà selezionare cosa modificare della task precedentemente indicata.
 In base alla selezione, avverrà la modifica e il task verrà visualizzato aggiornato.
-Alla fine di qualsiasi modifica fatta si torna in loop a questo menu (1.1.4.2)
-finchè l'utente non seleziona 0 che riporta al Menu di Benvenuto (1.1 Entra)
+Alla fine di qualsiasi modifica fatta si torna in loop a questo menu (1.1.4.4.2)
+finchè l'utente non seleziona 0 che riporta al Menu di modifica task (1.1.4)
 
 
 ____________________________________________________________
-1.1.4.0 --> Torna indietro
+1.1.4.4.0 --> Torna indietro
 ____________________________________________________________
 riporta al Menu di Benvenuto (1.1 Entra)
 
 
 ____________________________________________________________
-1.1.5 --> Aggiorna Status della Task
+1.1.4.5 --> Aggiorna Status della Task
 ____________________________________________________________
 Se la lista delle task ha almeno un elemento, permette di aggiornare lo status
 di una task dalla Lista delle task selezionandola tramite l'indice di riferimento.
 Eseguita l'operazione, viene visualizzata la task aggiornata con lo status,
-e si torna poi al Menu di Benvenuto (1.1 Entra)
+e si torna poi al Menu di modifica task (1.1.4)
