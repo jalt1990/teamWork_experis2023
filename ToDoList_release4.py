@@ -231,9 +231,9 @@ def calcolo_percentuale (lista):
         if task.status == True:
             completate +=1
     if totali == 0:
-        lista.progressivo = 100.0
+        lista.progressivo = 0
     else:
-        lista.progressivo = completate / totali * 100
+        lista.progressivo = round(completate / totali * 100)
 
 # Controllo uscita
 def controllo_uscita(scelta):
