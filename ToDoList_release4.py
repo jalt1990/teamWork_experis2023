@@ -2,19 +2,20 @@
 RELEASE 4.00
 - Aggiunto il log-in utente, per poter modificare e accedere alle proprie liste
 - Aggiunta opzione per rinominare le liste
+- Aggiunto conteggio per calcolare la percentuale di completamento di una lista
 """
 ################################### AREA APPUNTI DI SVILUPPO ##################################################
 
 """
 INDICE:
 
-RIGA 26  - CLASSI
-RIGA 128 - FUNZIONI DI AUSILIO UTENTE
-RIGA 149 - FUNZIONI DI AUSILIO GENERALI
-RIGA 235 - FUNZIONI DI CRUD PER LE TASK
-RIGA 302 - FUNZIONI DI CRUD PER LE LISTE
-RIGA 351 - FUNZIONI DI NAVIGAZIONE MENU
-RIGA 610 - AREA DEMO
+RIGA 27  - CLASSI
+RIGA 127 - FUNZIONI DI AUSILIO UTENTE
+RIGA 148 - FUNZIONI DI AUSILIO GENERALI
+RIGA 247 - FUNZIONI DI CRUD PER LE TASK
+RIGA 314 - FUNZIONI DI CRUD PER LE LISTE
+RIGA 364 - FUNZIONI DI NAVIGAZIONE MENU
+RIGA 621 - AREA DEMO
 """
 
 ############################### AREA DI IMPLEMENTAZIONE ############################################
@@ -79,6 +80,7 @@ class ListaTask:
     def __init__(self, nome):
         self.nome = nome
         self.task = []
+        self.progressivo = 100.0
 
     # aggiunge una task alla lista
     def create(self, task):
@@ -86,9 +88,6 @@ class ListaTask:
     
     # stampa le task contenute nella lista
     def read(self):
-        """Esplora la lista contenuta nell'oggetto ListaTask,
-        per ogni oggetto in lista, recupera l'indice che quell'oggetto occupa in lista,
-        e stampalo insieme ai dati dell'oggetto stesso"""
         print(self.nome)
         for task in self.task:
             index = str(self.task.index(task) + 1)
@@ -223,6 +222,19 @@ def modifica_completa(x, to_do_list):
     print('Hai aggiornato la task con successo.')
 
 
+# funzione per calcolare la percentuale
+def calcolo_percentuale (lista):
+    completate = 0
+    totali = 0
+    for task in lista.task:
+        totali += 1
+        if task.status == True:
+            completate +=1
+    if totali == 0:
+        lista.progressivo = 100.0
+    else:
+        lista.progressivo = completate / totali * 100
+
 # Controllo uscita
 def controllo_uscita(scelta):
     if scelta.lower().strip() == 'exit':
@@ -320,9 +332,10 @@ def aggiungi_lista(liste):
 def visualizza_liste(elenco_liste):
     for liste in elenco_liste:
         index = str(elenco_liste.index(liste) + 1)
-        print(index + '. ' + liste.nome + ':') # to_string è un metodo dell'oggetto Task
+        calcolo_percentuale(liste)
+        print(index + '. ' + liste.nome + ': ' + str(liste.progressivo) + '%') # to_string è un metodo dell'oggetto Task
         for task in liste.task:
-            print(' -', task.contenuto)
+            print(' -', task.contenuto, '               ', task.read_status())
 
 
 # elimina una lista esistente
@@ -587,8 +600,6 @@ def switch_accesso(elenco_utenti):
         # uscita
         if scelta_accesso == '0':
             print("Arrivederci!")
-            for x in elenco_utenti[0].liste:
-                print(x.task)
             break
         # navigazione con scelte -- Registrazione
         elif scelta_accesso == '1':
@@ -609,7 +620,7 @@ def switch_accesso(elenco_utenti):
 
 ############################## AREA DEMO ############################
 
-# inizializzazione dell' oggetto di lista task  
+# inizializzazione dell'oggetto di lista task  
 elenco_utenti = []
 
 switch_accesso(elenco_utenti)

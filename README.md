@@ -47,9 +47,7 @@ REGOLE DI GRUPPO
   - inserimento di un filtro task scaduta/non scaduta;
   - inserimento di un sistema di comunicazione con app calendario esterne;
   - implentazione di funzione di import/export per file di backup;
-  - ordinamento delle liste per priorità, scadenza, o da completare;
-  - visualizzazione del progressivo dell'esecuzione delle liste (in percentuale);
-  - gestione di più profili (nome utente, password e mail).
+  - ordinamento delle liste per priorità, scadenza, o da completare.
 
 
 
