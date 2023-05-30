@@ -82,8 +82,8 @@ class ListaTask:
         self.task = []
 
     # aggiunge una task alla lista
-    def create(self, task):
-        self.task.append(task)
+    def create(self, task_da_aggiungere):
+        self.task.append(task_da_aggiungere)
     
     # stampa le task contenute nella lista
     def read(self):
