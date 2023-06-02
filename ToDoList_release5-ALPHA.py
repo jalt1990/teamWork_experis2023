@@ -1,8 +1,8 @@
 """
 RELEASE 5.00 - ALPHA
-- Aggiunto il log-in utente, per poter modificare e accedere alle proprie liste
-- Aggiunta opzione per rinominare le liste
-- Aggiunto conteggio per calcolare la percentuale di completamento di una lista
+- Aggiunto sistema di alert per mandare una notifica a video quando una task sta per scadere (vedi file esperimento)
+- Aggiunta opzione per modificare password, una volta fatto il log-in (FATTO)
+- Aggiunti controlli sugli username (FATTO)
 """
 ################################### AREA APPUNTI DI SVILUPPO ##################################################
 
@@ -21,8 +21,8 @@ RIGA 621 - AREA DEMO
 ############################### AREA DI IMPLEMENTAZIONE ############################################
 
 
-# importo libreria per gestire le date
-import datetime
+import datetime                     # per gestire le date
+from threading import Thread        # per gestire i thread paralleli
 
 ######################################   CLASSI   ##################################################
 
@@ -117,25 +117,32 @@ class User:
         self.liste = []
 
     # cambio della password
-    def cambiaPassword(self, password, nuova_password):
-        if password == self.password:
-            self.password = nuova_password
-        else:
-            print("Password Errata, impossibile cambiare la Password.")
+    def cambiaPassword(self, nuova_password):
+        self.password = nuova_password
+        print("Password modificata con successo!")
 
     
 ###################### FUNZIONI DI AUSILIO UTENTE ###########################
 
 # permette di registrare un nuovo utente
-def registrazione():
-    username = input("Inserisci username: ")
-    password = input("Inserisci password: ")
-    utente = User(username, password)
-    if utente is not None:
-        print("Utente registrato con successo.")
-        return utente
-    else:
-        print("Qualcosa è andato storto")
+def registrazione(elenco):
+    while True:
+        flag = 0
+        username = input("Inserisci username: ")
+        # controllo se un username è già presente nell'elenco
+        for user in elenco:
+            if user.username == username:
+                flag = 1
+        if flag == 1:
+            print("Username non disponibile, riprova")
+        else:
+            password = input("Inserisci password: ")
+            utente = User(username, password)
+            if utente is not None:
+                print("Utente registrato con successo.")
+                return utente
+            else:
+                print("Qualcosa è andato storto, riprova")
 
 # permette di fare il login dell'utente
 def login(utenti):
@@ -247,7 +254,7 @@ def controllo_uscita(scelta):
     else:
         return False
 
-
+# funzione per modificare la password utente
 def modifica_password(utente):
     while True:    
         print('Vuoi modificare la password?')
@@ -255,22 +262,32 @@ def modifica_password(utente):
         # controllo sull'input 'risposta'
         if risposta.lower().strip() == 'si':
             while True:
-                vecchia_password = input
-                # controllo sull'input 'valore'
-                if valore in ['Alta', 'Media', 'Bassa']:
-                    # aggiorno priorita
-                    task_creato.update_priorita(valore)
+                vecchia_password = input("Inserire la vecchia password (exit per uscire): ")
+                if controllo_uscita(vecchia_password):
                     break
                 else:
-                    print('Per favore inserisci una parola tra le seguenti : Alta/Media/Bassa')
+                # controllo sull'input 'vecchia_password'
+                    if vecchia_password != utente.password:
+                        print("Password errata! Inserire la password corretta")
+                    else:
+                        nuova_password = input("Inserire la nuova password: ")
+                        utente.cambiaPassword(nuova_password)
+                        break
             break
         elif risposta.lower().strip() == 'no':
-            print("Hai scelto di non inserire dettagli priorità")
             break
         else: 
             print("Errore, scelta non disponibile")
 
-    
+# funzione per mandare l'alert ((((DA IMPLEMENTARE))))
+def controllo_alert(tempo):
+    return
+
+# funzione per bloccare il thread
+def stop_thread():
+    global exit_thread
+    exit_thread = True
+
 
 ################################   FUNZIONI DI CRUD TASK   ###################################
 
@@ -569,9 +586,10 @@ def switch_scelta_lista(liste):
 
 # Switch di navigazione menu liste
 def switch_navigazione_liste(utente):  
-    accensione = True
 
-    while accensione:
+    # ((( Qui vogliamo iniziare il thread )))
+
+    while True:
         print("\nCiao", utente.username, "come posso aiutarti?")
         print("1. Aggiungi una lista")
         print("2. Visualizza tutte le liste")
@@ -584,7 +602,8 @@ def switch_navigazione_liste(utente):
 
         if scelta == '0':
             # richiesta tornare indietro al menu di accesso
-            accensione = False
+            stop_thread()
+            break
 
         elif scelta == '1':
             # Aggiungi una lista
@@ -637,7 +656,7 @@ def switch_accesso(elenco_utenti):
             break
         # navigazione con scelte -- Registrazione
         elif scelta_accesso == '1':
-            utente = registrazione()
+            utente = registrazione(elenco_utenti)
             elenco_utenti.append(utente)
         # navigazione con scelte -- Login
         elif scelta_accesso == '2':
@@ -664,8 +683,6 @@ lista_task.task = [task1, task2, task3]
 utente = User('utente1', '1234')
 utente.liste.append(lista_task)
 elenco_utenti = [utente]
-
-
 
 
 switch_accesso(elenco_utenti)
