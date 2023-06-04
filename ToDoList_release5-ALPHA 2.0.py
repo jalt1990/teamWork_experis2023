@@ -1,0 +1,761 @@
+"""
+RELEASE 5.00 - ALPHA 2.0
+- In file 'esperimento datetime_2.py' ho provato a implementare il thread con un oggetto task
+- Aggiunti controlli per creare o modificare password (FATTO)
+"""
+
+################################### AREA APPUNTI DI SVILUPPO ##################################################
+
+"""
+INDICE:
+
+RIGA 27  - CLASSI
+RIGA 125 - FUNZIONI DI AUSILIO UTENTE
+RIGA 213 - FUNZIONI DI AUSILIO GENERALI
+RIGA 364 - FUNZIONI DI CRUD PER LE TASK
+RIGA 431 - FUNZIONI DI CRUD PER LE LISTE
+RIGA 481 - FUNZIONI DI NAVIGAZIONE MENU
+RIGA 746 - AREA DEMO
+"""
+
+############################### AREA DI IMPLEMENTAZIONE ############################################
+
+
+import datetime                     # per gestire le date
+from threading import Thread        # per gestire i thread paralleli
+
+######################################   CLASSI   ##################################################
+
+# Classe Task
+class Task:
+
+    # Metodo costruttore
+    def __init__(self, contenuto, scadenza):
+        self.contenuto = contenuto # string
+        self.scadenza = scadenza  # data di scadenza task
+        self.status = False  # stato della task se completato o non -- Default: non completato
+        self.priorita = 'Media'  # priorita -- Default : Media
+        self.alert = False
+
+    # Visualizzazione Task
+    def to_string(self):
+        return f'Contenuto: {self.contenuto}\n  Scadenza: {self.scadenza}\n  Status: {self.read_status()}\n  Priorità : {self.priorita}\n'
+    
+    # Modifica dello status come completata (nella modifica parziale)
+    def update_status(self):
+        if self.status == True:
+            self.status = False
+            print('Hai segnalato la task come Non Completata')
+        else:
+            self.status = True
+            print('Hai segnalato la task come Completata')
+
+    # Lettura dello status della task
+    def read_status(self):
+        if self.status:
+            return '[✓]'
+        else:
+            return '[ ]'
+        
+    # Modifica di priorita (nella modifica parziale)
+    def update_priorita(self, valore):
+        # controlla che il valore sia nei valori concessi
+        if valore in ['Alta', 'Media', 'Bassa']:
+            self.priorita = valore
+        else:
+            print('Non è stato possibile modificare la priorità del task.')
+
+    # Modifica del contenuto della task (nella modifica parziale)
+    def update_contenuto(self, nuovo_contenuto):
+        self.contenuto = nuovo_contenuto
+
+    # Modifica della scadenza (nella modifica parziale)
+    def update_scadenza(self, nuova_scadenza):
+        self.scadenza = nuova_scadenza
+    
+# Classe ListaTask
+class ListaTask:
+    # metodo costruttore
+    def __init__(self, nome):
+        self.nome = nome
+        self.task = []
+        self.progressivo = 100.0
+
+    # aggiunge una task alla lista
+    def create(self, task):
+        self.task.append(task)
+    
+    # stampa le task contenute nella lista
+    def read(self):
+        print(self.nome)
+        for task in self.task:
+            index = str(self.task.index(task) + 1)
+            print(index + ' ' + task.to_string()) # to_string è un metodo dell'oggetto Task
+
+    # aggiorna la task nella lista (per la modifica completa)
+    def update(self, task, contenuto, scadenza):
+        task.contenuto = contenuto
+        task.scadenza = scadenza
+
+    # cancella la task nella lista
+    def delete(self, indice):
+        self.task.remove(self.task[indice - 1])
+
+    # rinomina la lista
+    def rename(self):
+        nuovo_nome = input("Inserisci il nuovo nome per la lista: ")
+        self.nome = nuovo_nome
+        print(f"Hai rinominato la lista con il seguente nome:{self.nome}.")
+
+# Classe User
+class User:
+    # costruttore
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+        self.liste = []
+
+    # cambio della password
+    def cambiaPassword(self, nuova_password):
+        self.password = nuova_password
+        print("Password modificata con successo!")
+
+
+
+###################### FUNZIONI DI AUSILIO UTENTE ###########################
+
+# permette di registrare un nuovo utente
+def registrazione(elenco):
+    while True:
+        # flag=0 / non è presente la username tra quelle registrate in elenco utenti
+        # flag=1 / è già presente la username tra quelle registrate in elenco utenti
+        flag = 0
+        print('Hai scelto di registrare un nuovo utente.')
+        print('Nota: inserire una username che non sia tra quelle già registrate,')
+        print('e una password che abbia le seguenti caratteristiche:')
+        print('-lunghezza minima di 8 caratteri.')
+        print('-almeno un carattere maiuscolo')
+        print('-almeno un carattere minuscolo')
+        print('-almeno un carattere numerico')
+        print('-almeno un carattere speciale.\n')
+        username = input("Inserisci username: ")
+        # controllo se un username è già presente nell'elenco
+        for user in elenco:
+            if user.username == username:
+                flag = 1
+                break # nel caso l'utente venga trovato è inutile esplorare oltre la lista utenti
+        if flag == 1:
+            print("Username non disponibile, riprova")
+        else:
+        # se flag=0 e quindi user disponibile:
+            password = input("Inserisci password: ")
+            # controllo sulla password
+            if check_password(password):
+                utente = User(username, password)
+            # se la password non passa il controllo utente = None e quindi invalida l'operazione
+            else:
+                utente = None
+            if utente is not None:
+                print("Utente registrato con successo.")
+                return utente
+            else:
+                print("Qualcosa è andato storto, riprova")
+
+# permette di fare il login dell'utente
+def login(utenti):
+    username = input("Inserisci username: ")
+    password = input("Inserisci password: ")
+    # per ogni utente in lista_utenti effettua il controllo dell'user e pass
+    for utente in utenti:
+        # se uguale permette l'accesso
+        if utente.username == username and utente.password == password:
+            print("Accesso effettuato con successo.")
+            return utente
+
+# check della password
+def check_password(nuova_password):
+    if len(nuova_password) >= 8:
+        counter_upper = 0
+        counter_lower = 0
+        counter_numeric = 0
+        counter_special = 0
+        for ch in nuova_password:
+            if ch.isupper():
+                counter_upper += 1
+            elif ch.islower():
+                counter_lower += 1
+            elif ch.isnumeric():
+                counter_numeric += 1
+            else:
+                counter_special += 1
+        if counter_numeric > 0:
+            if counter_upper > 0:
+                if counter_lower > 0:
+                    if counter_special > 0:
+                        return True
+                    else:
+                        print('La password deve contenere almeno un carattere speciale.')
+                        return False
+                else:
+                    print('La password deve contenere almeno un carattere minuscolo.')
+                    return False
+            else:
+                print('La password deve contenere almeno un carattere maiuscolo.')
+                return False
+        else:
+            print('La password deve contenere almeno un carattere numerico.')
+            return False
+    else:
+        print('La password deve contenere almeno 8 caratteri.')
+        return False
+
+
+##################################     FUNZIONI DI AUSILIO GENERALI   ######################################
+
+# funzione per richiere in input una data
+def richiesta_data_e_ora():
+    while True:    
+        print('Vuoi personalizzare la data?')
+        risposta = input("Si/No (con no verrà inserita l'ora di oggi): ")
+        # controllo sull'input 'risposta'
+        if risposta.lower().strip() == 'si':
+            while True:
+                try:
+                    # per gestire il tipo di errore: se l'input non può essere convertito in intero tipo_errore rimane 0
+                    tipo_errore = 0
+                    # trasformo tutto in int per evitare inserimento di stringhe   
+                    anno = int(input("Inserisci anno: "))
+                    mese = int(input("Inserisci mese: "))
+                    giorno = int(input("Inserisci giorno: "))
+                    ora = int(input("Inserisci ora: "))
+                    minuti = int(input("Inserisci minuti: "))
+                    # se la conversione a intero è corretta per tutti gli input, tipo_errore diventa 1 e l'unico errore possibile è una data o un'ora non valida
+                    tipo_errore = 1
+                    # concateno la data con -
+                    data_str = '-'.join([str(anno), str(mese), str(giorno)])
+                    # concateno l'ora con :
+                    ora_str = ':'.join([str(ora), str(minuti)])
+                    # concateno data e ora con spazio
+                    datetime_str = ' '.join([data_str,ora_str])
+                    # trasformo stringa in data
+                    datatime = datetime.datetime.strptime(datetime_str, '%Y-%m-%d %H:%M')
+                    break
+                except:
+                    if tipo_errore == 1:
+                        print("Errore: è stata inserita una data o un'ora non valida. Per favore, riprova.\n")
+                    if tipo_errore == 0:
+                        print("Errore: inserire numero intero. Riprova!\n")
+            return datatime
+        elif risposta.lower().strip() == 'no':
+            print("Hai scelto di non inserire dettagli priorità")
+            return datetime.datetime.utcnow()
+        else: 
+            print("Errore, scelta non disponibile")
+
+# funzione per aggiungere dettagli alle task:
+def aggiungi_dettagli_task(task_creato):
+    while True:    
+        print('Vuoi personalizzare la priorità?')
+        risposta = input('Si/No: ')
+        # controllo sull'input 'risposta'
+        if risposta.lower().strip() == 'si':
+            while True:
+                valore = input('Inserisci il valore della priorità tra i seguenti (Alta, Media , Bassa): ').lower().strip().capitalize()
+                # controllo sull'input 'valore'
+                if valore in ['Alta', 'Media', 'Bassa']:
+                    # aggiorno priorita
+                    task_creato.update_priorita(valore)
+                    break
+                else:
+                    print('Per favore inserisci una parola tra le seguenti : Alta/Media/Bassa')
+            break
+        elif risposta.lower().strip() == 'no':
+            print("Hai scelto di non inserire dettagli priorità")
+            break
+        else: 
+            print("Errore, scelta non disponibile")
+
+# funzione per modificare task completamente
+def modifica_completa(x, to_do_list):
+    contenuto = input('Inserisci il nuovo contenuto: ')
+    data = richiesta_data_e_ora()
+    aggiungi_dettagli_task(to_do_list.task[x])
+    # modifico gli attributi contenuto, scadenza e priorita
+    to_do_list.update(to_do_list.task[x], contenuto, data)
+    print('Hai aggiornato la task con successo.')
+
+# funzione per calcolare la percentuale
+def calcolo_percentuale (lista):
+    completate = 0
+    totali = 0
+    for task in lista.task:
+        totali += 1
+        if task.status == True:
+            completate +=1
+    if totali == 0:
+        lista.progressivo = 0
+    else:
+        lista.progressivo = round(completate / totali * 100)
+
+# Controllo uscita
+def controllo_uscita(scelta):
+    if scelta.lower().strip() == 'exit':
+        print ("La richiesta corrente è stata annullata. Torno indietro!")
+        return True
+    else:
+        return False
+
+# funzione per modificare la password utente
+def modifica_password(utente):
+    while True:    
+        print('Vuoi modificare la password?')
+        risposta = input('Si/No: ')
+        # controllo sull'input 'risposta'
+        if risposta.lower().strip() == 'si':
+            while True:
+                vecchia_password = input("Inserire la vecchia password (exit per uscire): ")
+                if controllo_uscita(vecchia_password):
+                    break
+                else:
+                # controllo sull'input 'vecchia_password'
+                    if vecchia_password != utente.password:
+                        print("Password errata! Inserire la password corretta")
+                    else:
+                        # stampa delle istruzioni per inserire la nuova password
+                        print('La nuova password deve avere le seguenti caratteristiche:')
+                        print('-deve essere diversa dalla vecchia password')
+                        print('-lunghezza minima di 8 caratteri')
+                        print('-almeno un carattere maiuscolo')
+                        print('-almeno un carattere minuscolo')
+                        print('-almeno un carattere numerico')
+                        print('-almeno un carattere speciale.\n')
+                        nuova_password = input("Inserire la nuova password: ")
+                        # controllo sulla nuova password
+                        if check_password(nuova_password):
+                            # controllo che la password nuova non sia uguale a quella vecchia
+                            if nuova_password != utente.password:
+                                utente.cambiaPassword(nuova_password)
+                            else:
+                                print('La nuova password non deve essere uguale alla vecchia password!')
+                        else:
+                            print('Non è stato possibile cambiare la password')
+                        break
+            break
+        elif risposta.lower().strip() == 'no':
+            break
+        else: 
+            print("Errore, scelta non disponibile")
+
+# funzione per bloccare il thread
+def stop_thread():
+    global exit_thread
+    exit_thread = True
+
+# funzione per mandare l'alert ((((DA IMPLEMENTARE))))
+def controllo_alert(task):
+    if task.alert:
+    # quando exit flag diventa True esce dal ciclo e il thread si interrompe
+        while not exit_thread:
+            delta = task.scadenza - datetime.datetime.now()
+            if delta.hours <= 24 :
+                print(f"Mancano meno di 24 ore allo scadere della task {task.contenuto}")
+
+
+################################   FUNZIONI DI CRUD TASK   ###################################
+
+# funzione per aggiungere task
+def aggiungi_task(to_do_list):
+    while True:
+        contenuto = input('Inserisci contenuto (exit per uscire): ')
+        # controllo per tornare indietro se l'input è 'exit'
+        if controllo_uscita(contenuto):
+            break
+        else:
+            data = richiesta_data_e_ora()
+            task_creato = Task(contenuto,data)
+            aggiungi_dettagli_task(task_creato)
+            to_do_list.task.append(task_creato)
+            print('Hai inserito correttamente la task nella lista')
+            break
+
+
+# funzione per visualizzare le task
+def visualizza_task(to_do_list):
+    to_do_list.read()
+
+
+# funzione per modificare lo status di una task
+def modifica_status(to_do_list):
+    print('Ti faccio visualizzare le task nella To do List: ')
+    to_do_list.read()
+    while True:
+        scelta = input('Indica il numero della task di cui vuoi modificare lo status (exit per uscire): ')
+        # controllo per tornare indietro se l'input è 'exit'
+        if controllo_uscita(scelta):
+            break
+        else:
+            # Costrutto per gestire gli errori di input di 'scelta'
+            try:
+                x = int(scelta) - 1
+                # aggiorno status
+                to_do_list.task[x].update_status()
+                print('Ti faccio rivisualizzare la task aggiornata:')
+                print(scelta + '.' + to_do_list.task[x].to_string())
+                break
+            except:
+                print('Errore: Hai inserito un input non valido.')
+                print("Inserisci il numero corrispondente al Task di cui vuoi modificare lo status.\n")
+
+
+# funzione per eliminare task
+def elimina_task(to_do_list):
+    while True:
+        print('Ti faccio visualizzare le task nella To do List: ')
+        to_do_list.read()
+        scelta = input('Indica il numero della task da eliminare (exit per uscire): ')
+        # controllo per tornare indietro se l'input è 'exit'
+        if controllo_uscita(scelta):
+            break
+        else:
+        # Costrutto per gestire gli errori di input di 'scelta'
+            try:
+                # Elimino task dalla lista
+                to_do_list.delete(int(scelta))
+                print('Hai eliminato la task con successo.')
+                break
+            except:
+                print('Errore: Hai inserito un input non valido.')
+                print("Inserisci il numero corrispondente al Task che vuoi eliminare.\n")
+
+
+################################   FUNZIONI DI CRUD LIST  ###################################
+
+# funzione per aggiungere lista
+def aggiungi_lista(liste):
+    while True:
+        nome_lista = input("Aggiungi il nome della lista (exit per uscire): ")
+        if controllo_uscita(nome_lista):
+            break
+        else:
+            # creazione e inserimento nell'elenco
+            lista_creata = ListaTask(nome_lista)
+            liste.append(lista_creata)
+            # modifica della lista
+            switch_navigazione_task(liste[-1])
+            break
+
+
+# visualizza l'elenco delle liste
+def visualizza_liste(elenco_liste):
+    for liste in elenco_liste:
+        index = str(elenco_liste.index(liste) + 1)
+        calcolo_percentuale(liste)
+        print(index + '. ' + liste.nome + ': ' + str(liste.progressivo) + '%') # to_string è un metodo dell'oggetto Task
+        for task in liste.task:
+            print(task.read_status(), task.contenuto)
+
+
+# elimina una lista esistente
+def elimina_lista(utente):
+    while True:
+        print('Ti faccio visualizzare le liste nella To do List: ')
+        # visualizza tutte le liste contenute nell'elenco liste
+        visualizza_liste(utente.liste)
+        scelta = input('Indica il numero della lista da eliminare (exit per uscire): ')
+        # controllo per tornare indietro se l'input è 'exit'
+        if controllo_uscita(scelta):
+            break
+        else:
+        # Costrutto per gestire gli errori di input di 'scelta'
+            try:    
+                indice_lista = int(scelta) - 1
+                # Elimino lista
+                del utente.liste[indice_lista]
+                print('Hai eliminato la lista con successo.')
+                break
+            except:
+                print('Errore: Hai inserito un input non valido.')
+                print("Inserisci il numero corrispondente alla Lista che vuoi eliminare.\n")
+
+
+############################   FUNZIONI DI NAVIGAZIONE MENU   ################################
+ 
+# Switch della modifica parziale
+def switch_modifica_parziale(x, to_do_list):
+    while True:
+        print("\nQuesta è l'area di modifica parziale:")
+        print("1. Modifica contenuto")
+        print("2. Modifica scadenza")
+        print("3. Modifica priorita")
+        print("0. Torna indietro")
+        scelta_modifica2 = input("Inserisci la tua scelta: ")
+        if scelta_modifica2 == '0':
+            # torno indietro
+            break
+        elif scelta_modifica2 == '1':
+            while True:
+                contenuto = input('Inserisci contenuto (exit per uscire): ')
+                # controllo per tornare indietro se l'input è 'exit'
+                if controllo_uscita(contenuto):
+                    break
+                else:
+                    # modifico contenuto e stampo
+                    to_do_list.task[x].update_contenuto(contenuto)
+                    print('Ti faccio rivisualizzare la task aggiornata:')
+                    print(str(x+1) + '.' + to_do_list.task[x].to_string())
+                    break
+            
+        elif scelta_modifica2 == '2':
+            while True:
+                conferma = input("Sei sicuro di voler modificare la data? (Si/No): ")
+                # controllo dell'input 'conferma'
+                if conferma.lower().strip() == 'no':
+                    print("Hai deciso di non modificare la data")
+                    break
+                elif conferma.lower().strip() == 'si':
+                    # modifico scadenza e stampo
+                    data = richiesta_data_e_ora()
+                    to_do_list.task[x].update_scadenza(data)
+                    print('Ti faccio rivisualizzare la task aggiornata:')
+                    print(str(x+1) + '.' + to_do_list.task[x].to_string())
+                    break
+                else:
+                    print("La scelta selezionata non esiste. Riprova")
+                
+        elif scelta_modifica2 == '3':
+            # modifico priorita e stampo
+            aggiungi_dettagli_task(to_do_list.task[x])
+            print('Ti faccio rivisualizzare la task aggiornata:')
+            print(str(x+1) + '.' + to_do_list.task[x].to_string())
+
+        else:
+            print("Errore, l'opzione da te selezionata non esiste")
+
+# Switch per modificare una task
+def switch_modifica(to_do_list):
+    print('Ti faccio visualizzare le task nella To do List: ')
+    to_do_list.read()
+    while True:
+        scelta_mod = input('Indica il numero della task da aggiornare (exit per uscire): ')
+        # controllo per tornare indietro se l'input è 'exit'
+        if controllo_uscita(scelta_mod):
+            break
+        else:
+            # controllo se la scelta è un intero ed esiste nella lista una task di indice x
+            try:
+                x = int(scelta_mod) - 1
+                task_corrente = to_do_list.task[x]
+                print('\nTi faccio rivisualizzare la task selezionata:\n')
+                print(scelta_mod + '.' + task_corrente.to_string())
+                break
+            except:
+                print("Per favore, inserire numero intero di una task esistente nella lista o exit \n")
+    while True:
+        # controllo per tornare indietro se l'input è 'exit' : nel caso l'utente voglia uscire questo while non va esplorato
+        if controllo_uscita(scelta_mod):
+            break
+        else:
+            print("Questa è l'area di modifica:")
+            print("1. Modifica completa di una task")
+            print("2. Modifica solo un elemento di una task")
+            print("0. Torna indietro")
+            scelta_modifica = input("Inserisci la tua scelta: ")
+            if scelta_modifica == '0':
+                # torno indietro alla switch_navigazione_task
+                break
+            elif scelta_modifica == '1':
+                # vado a modifica completa
+                modifica_completa(x, to_do_list)
+                break
+            elif scelta_modifica == '2':
+                # vado a modifica parziale
+                switch_modifica_parziale(x, to_do_list)
+                break
+            else:
+                print("\nErrore: l'opzione da te selezionata non esiste.")
+                print("Indica un numero intero tra 0 e 2.\n")
+        
+# Switch di navigazione menu task
+def switch_navigazione_task(to_do_list):  
+    accensione = True
+    
+    while accensione:
+        print("\nStai modificando la lista:", to_do_list.nome)
+        print("1. Aggiungi una task")
+        print("2. Visualizza tutte le task")
+        print("3. Elimina Task")
+        print("4. Modifica la Task")
+        print("5. Aggiorna Status della Task")
+        print("6. Rinomina la lista")
+        print("0. Torna indietro")
+        scelta = input("Inserisci la tua scelta: ")
+        print()
+
+        if scelta == '0':
+            # richiesta tornare indietro al menu di accesso
+            accensione = False
+
+        elif scelta == '1':
+            # Aggiungi una task contenuto, scadenza, priorita, con stato_attivita = 'Non Completato'
+            aggiungi_task(to_do_list)
+            
+        elif scelta == '2':
+            # Visualizza le task nella to do list
+            if len(to_do_list.task) == 0:
+                print('Non ci sono Task salvate finora che possano quindi essere visualizzate.')
+            else:           
+                visualizza_task(to_do_list)
+
+        elif scelta == '3':
+            # Elimina una task esistente
+            if len(to_do_list.task) == 0:
+                print('Non ci sono Task salvate finora che possano quindi essere eliminate.')
+            else:           
+                elimina_task(to_do_list)
+
+        elif scelta == '4':
+            # Aggiornare la task
+            if len(to_do_list.task) == 0:
+                print('Non ci sono Task salvate finora che possano quindi essere aggiornate.')
+            else:
+                switch_modifica(to_do_list)
+    
+        elif scelta == '5':
+            # Aggiornare lo status della task
+            if len(to_do_list.task) == 0:
+                print('Non ci sono Task salvate finora che possano quindi essere aggiornate sullo status.')
+            else:
+                modifica_status(to_do_list)
+        
+        elif scelta == '6':
+            to_do_list.rename()
+
+        else:
+            #opzione inesistente
+            print("Errore: l'opzione da te selezionata non esiste")
+            print("Inserisci un numero intero compreso tra 0 e 5 senza spazi, grazie.\n")
+
+# Switch di scelta lista
+def switch_scelta_lista(liste):
+    while True:
+        print('Ti faccio visualizzare le liste nella To do List: ')
+        # visualizza tutte le liste contenute nell'elenco liste
+        visualizza_liste(liste)
+        scelta = input('Indica il numero della lista da gestire (exit per uscire): ')
+        # controllo per tornare indietro se l'input è 'exit'
+        if controllo_uscita(scelta):
+            break
+        else:
+        # Costrutto per gestire gli errori di input di 'scelta'
+            try:    
+                indice_lista = int(scelta) - 1
+                # Elimino lista
+                switch_navigazione_task(liste[indice_lista])
+                break
+            except:
+                print('Errore: Hai inserito un input non valido.')
+                print("Inserisci il numero corrispondente alla Lista che vuoi gestire.\n")
+
+# Switch di navigazione menu liste
+def switch_navigazione_liste(utente):  
+
+    # ((( Qui vogliamo iniziare il thread )))
+
+    while True:
+        print("\nCiao", utente.username, "come posso aiutarti?")
+        print("1. Aggiungi una lista")
+        print("2. Visualizza tutte le liste")
+        print("3. Elimina lista")
+        print("4. Modifica la lista")
+        print("5. Modifica Password")
+        print("0. Torna indietro")
+        scelta = input("Inserisci la tua scelta: ")
+        print()
+
+        if scelta == '0':
+            # richiesta tornare indietro al menu di accesso
+            stop_thread()
+            break
+
+        elif scelta == '1':
+            # Aggiungi una lista
+            aggiungi_lista(utente.liste)
+            
+        elif scelta == '2':
+            # Visualizza le liste nella to do list
+            if len(utente.liste) == 0:
+                print("L'elenco delle liste è vuoto, non puoi visualizzare")
+            else:           
+                visualizza_liste(utente.liste)
+
+        elif scelta == '3':
+            # Elimina una lista esistente
+            if len(utente.liste) == 0:
+                print("L'elenco delle liste è vuoto, non puoi eliminare")
+            else:           
+                elimina_lista(utente)
+
+        elif scelta == '4':
+            # Aggiornare la lista
+            if len(utente.liste) == 0:
+                print("L'elenco delle liste è vuoto, non puoi modificare")
+            else:
+                switch_scelta_lista(utente.liste)
+        
+        # navigazione con scelte -- Cambia password
+        elif scelta == '5':
+            modifica_password(utente)
+
+
+        else:
+            #opzione inesistente
+            print("Errore: l'opzione da te selezionata non esiste")
+            print("Inserisci un numero intero compreso tra 0 e 4 senza spazi, grazie.\n")
+
+# Switch accesso
+def switch_accesso(elenco_utenti):
+    print("\nBenvenuto nell' App della To Do List")
+    # ciclo per ripetere la scelta in caso di errore
+    while True:
+        print("\nBenvenuto, prego Registrati o fai l'Accesso")
+        print("1. Registrazione")
+        print("2. Login")
+        print("0. Esci")
+        scelta_accesso = input("Inserisci la tua scelta: ")
+        # uscita
+        if scelta_accesso == '0':
+            print("Arrivederci!")
+            break
+        # navigazione con scelte -- Registrazione
+        elif scelta_accesso == '1':
+            utente = registrazione(elenco_utenti)
+            elenco_utenti.append(utente)
+        # navigazione con scelte -- Login
+        elif scelta_accesso == '2':
+            utente = login(elenco_utenti)
+            if utente is not None:
+                switch_navigazione_liste(utente)
+            else:
+                print("Username o password non validi.")       
+        # opzione inesistente
+        else:
+            print("Errore: l'opzione da te selezionata non esiste")
+            print("Inserisci un numero intero tra 0 e 1 senza spazi, grazie.\n")
+        
+
+############################## AREA DEMO ############################
+
+# inizializzazione dell'oggetto di lista task  
+task1 = Task('Mele','2023-06-01 09:10:37')
+task1.status = True
+task2 = Task('Pane','2023-06-01 09:10:37')
+task3 = Task('Banane','2023-06-01 09:10:37')
+lista_task = ListaTask('Spesa')
+lista_task.task = [task1, task2, task3]
+utente = User('utente1', 'Password@1234')
+utente.liste.append(lista_task)
+elenco_utenti = [utente]
+
+#switch_accesso(elenco_utenti)
+
+if 'utente1' in elenco_utenti
