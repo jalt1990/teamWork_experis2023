@@ -6,21 +6,23 @@ from threading import Thread
 def stop_thread():
     global exit_flag
     exit_flag = True
-    return exit_flag
 
 # funzione per mandare l'alert ((((DA IMPLEMENTARE))))
 def controllo_alert(task):
     if task.alert:
     # quando exit flag diventa True esce dal ciclo e il thread si interrompe
         # ovviamente si interrompe anche nel caso in cui la task venga completata
-        while not task.status and not exit_flag:
-            delta = datetime.datetime.strptime(task.scadenza, '%Y-%m-%d %H:%M:%S') - datetime.datetime.now()
+        while not task.status:
+            delta = datetime.datetime.strptime(task.scadenza, '%Y-%m-%d %H:%M') - datetime.datetime.now()
             # nel caso in cui manchino 24 ore e la task non sia scaduta, manda in stampa l'avviso di alert
-            if delta.days <= 1 and delta.seconds > 0:
+            if delta.days <= 1 and delta.days >= 0:
                 print(f"Mancano meno di 24 ore allo scadere della task {task.contenuto}")
                 print(delta)
                 # time.sleep mette a riposo per un tot secondi, in teoria si potrebbe mandare in stampa ogni 3600 sec
-                time.sleep(3)
+                time.sleep(60)
+
+
+
 # Classe Task
 class Task:
 
@@ -69,7 +71,7 @@ class Task:
         self.scadenza = nuova_scadenza
 
 # per testare la demo inserire una data coerente con l'orario attuale in cui si prova :)
-task2 = Task('Pane','2023-06-05 12:07:15')
+task2 = Task('Pane','2023-06-06 12:07')
 task2.alert = True
 
 

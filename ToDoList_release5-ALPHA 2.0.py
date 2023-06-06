@@ -1,7 +1,7 @@
 """
 RELEASE 5.00 - ALPHA 2.0
-- In file 'esperimento datetime_2.py' ho provato a implementare il thread con un oggetto task
-- Aggiunti controlli per creare o modificare password (FATTO)
+- Controllo data di scadenza task
+- Possibilità di modificare l'attributo Alert da false a true e viceversa
 """
 
 ################################### AREA APPUNTI DI SVILUPPO ##################################################
@@ -22,6 +22,7 @@ RIGA 746 - AREA DEMO
 
 
 import datetime                     # per gestire le date
+import time                         # per gestire le attese
 from threading import Thread        # per gestire i thread paralleli
 
 ######################################   CLASSI   ##################################################
@@ -348,17 +349,24 @@ def modifica_password(utente):
 
 # funzione per bloccare il thread
 def stop_thread():
-    global exit_thread
-    exit_thread = True
+    global exit_flag
+    exit_flag = True
 
 # funzione per mandare l'alert ((((DA IMPLEMENTARE))))
-def controllo_alert(task):
-    if task.alert:
-    # quando exit flag diventa True esce dal ciclo e il thread si interrompe
-        while not exit_thread:
-            delta = task.scadenza - datetime.datetime.now()
-            if delta.hours <= 24 :
-                print(f"Mancano meno di 24 ore allo scadere della task {task.contenuto}")
+def controllo_alert(liste):
+    while not exit_flag:
+        for lista in liste:
+            for task in lista.task:
+                if task.alert and not task.status:
+                # quando exit flag diventa True esce dal ciclo e il thread si interrompe
+                    # ovviamente si interrompe anche nel caso in cui la task venga completata
+                    delta = task.scadenza - datetime.datetime.now()
+                    # nel caso in cui manchino 24 ore e la task non sia scaduta, manda in stampa l'avviso di alert
+                    if delta.days <= 1 and delta.days >= 0:
+                        print(f"Mancano meno di 24 ore allo scadere della task {task.contenuto}")
+                        print(delta)
+        # time.sleep mette a riposo per un tot secondi, in teoria si potrebbe mandare in stampa ogni 3600 sec
+        time.sleep(10)
 
 
 ################################   FUNZIONI DI CRUD TASK   ###################################
@@ -659,16 +667,22 @@ def switch_scelta_lista(liste):
 # Switch di navigazione menu liste
 def switch_navigazione_liste(utente):  
 
-    # ((( Qui vogliamo iniziare il thread )))
+    # exit flag inpostata a false
+    global exit_flag
+    exit_flag = False
+    # faccio partire il thread
+    t = Thread(target=controllo_alert, args=[utente.liste], daemon=True)
+    t.start()
+    
 
     while True:
-        print("\nCiao", utente.username, "come posso aiutarti?")
+        '''print("\nCiao", utente.username, "come posso aiutarti?")
         print("1. Aggiungi una lista")
         print("2. Visualizza tutte le liste")
         print("3. Elimina lista")
         print("4. Modifica la lista")
         print("5. Modifica Password")
-        print("0. Torna indietro")
+        print("0. Torna indietro")'''
         scelta = input("Inserisci la tua scelta: ")
         print()
 
@@ -745,17 +759,22 @@ def switch_accesso(elenco_utenti):
 
 ############################## AREA DEMO ############################
 
-# inizializzazione dell'oggetto di lista task  
-task1 = Task('Mele','2023-06-01 09:10:37')
-task1.status = True
-task2 = Task('Pane','2023-06-01 09:10:37')
-task3 = Task('Banane','2023-06-01 09:10:37')
+# inizializzazione dell'oggetto di lista task 
+data1 = datetime.datetime.strptime('2023-06-06 12:58', '%Y-%m-%d %H:%M') 
+task1 = Task('Mele', data1)
+task1.alert = True
+task1.status = False
+task2 = Task('Pane', data1)
+task2.alert = True
+task2.status = False
+data2 = datetime.datetime.strptime('2023-06-06 12:15', '%Y-%m-%d %H:%M') 
+task3 = Task('Banane', data2)
+task3.alert = True
+task3.status = False
 lista_task = ListaTask('Spesa')
 lista_task.task = [task1, task2, task3]
 utente = User('utente1', 'Password@1234')
 utente.liste.append(lista_task)
 elenco_utenti = [utente]
 
-#switch_accesso(elenco_utenti)
-
-if 'utente1' in elenco_utenti
+switch_accesso(elenco_utenti)

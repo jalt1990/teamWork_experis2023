@@ -1,5 +1,6 @@
 import datetime as dt
 from threading import Thread
+import time
 # facoltativo inserire alert al task ---> funzione di 
 # controllo sulla scadenza del task
 # se mancano n tempo alla scadenza:
@@ -29,6 +30,7 @@ def prova_time(tempo):
             print("3 Sec")
             # Update 't' variable to new time
             tempo = dt.datetime.now()
+            time.sleep(3)
 
 
 def switch_accesso2():
